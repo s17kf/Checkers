@@ -123,7 +123,8 @@ public class Chessboard{
         }
         if(checkHitUpLeft(pawnNumber, checkedSquare)){
             possibleMovesVector.add(new PawnPossibleMove(new Coordinates(checkedSquare.x-1, checkedSquare.y-1), true));
-            addQueenPossibleUpLeft(pawnNumber, new Coordinates(checkedSquare.x-2, checkedSquare.y-2), possibleMovesVector);
+            if(checkedSquare.x > 1 && checkedSquare.y > 1)
+                addQueenPossibleUpLeft(pawnNumber, new Coordinates(checkedSquare.x-2, checkedSquare.y-2), possibleMovesVector);
         }
     }
     private void addQueenPossibleUpRight(int pawnNumber,Coordinates checkedSquare,Vector<PawnPossibleMove> possibleMovesVector) throws Exception{
@@ -135,7 +136,8 @@ public class Chessboard{
         }
         if(checkHitUpRight(pawnNumber, checkedSquare)){
             possibleMovesVector.add(new PawnPossibleMove(new Coordinates(checkedSquare.x+1, checkedSquare.y-1), true));
-            addQueenPossibleUpRight(pawnNumber, new Coordinates(checkedSquare.x+2, checkedSquare.y-2), possibleMovesVector);
+            if(checkedSquare.x < 6 && checkedSquare.y > 1)
+                addQueenPossibleUpRight(pawnNumber, new Coordinates(checkedSquare.x+2, checkedSquare.y-2), possibleMovesVector);
         }
     }
     private void addQueenPossibleDownLeft(int pawnNumber,Coordinates checkedSquare,Vector<PawnPossibleMove> possibleMovesVector) throws Exception{
@@ -147,7 +149,8 @@ public class Chessboard{
         }
         if(checkHitDownLeft(pawnNumber, checkedSquare)){
             possibleMovesVector.add(new PawnPossibleMove(new Coordinates(checkedSquare.x-1, checkedSquare.y+1), true));
-            addQueenPossibleDownLeft(pawnNumber, new Coordinates(checkedSquare.x-2, checkedSquare.y+2), possibleMovesVector);
+            if(checkedSquare.x > 1 && checkedSquare.y < 6)
+                addQueenPossibleDownLeft(pawnNumber, new Coordinates(checkedSquare.x-2, checkedSquare.y+2), possibleMovesVector);
         }
     }
     private void addQueenPossibleDownRight(int pawnNumber,Coordinates checkedSquare,Vector<PawnPossibleMove> possibleMovesVector) throws Exception{
@@ -159,7 +162,8 @@ public class Chessboard{
         }
         if(checkHitDownRight(pawnNumber, checkedSquare)){
             possibleMovesVector.add(new PawnPossibleMove(new Coordinates(checkedSquare.x+1, checkedSquare.y+1), true));
-            addQueenPossibleDownRight(pawnNumber, new Coordinates(checkedSquare.x+2, checkedSquare.y+2), possibleMovesVector);
+            if(checkedSquare.x <6 && checkedSquare.y <6)
+                addQueenPossibleDownRight(pawnNumber, new Coordinates(checkedSquare.x+2, checkedSquare.y+2), possibleMovesVector);
         }
     }
 
@@ -240,7 +244,7 @@ public class Chessboard{
         return false;
     }
     private Boolean checkHitDownRight(int pawnNumber, Coordinates hittedSquare) throws Exception{
-        if(hittedSquare.x<6 && hittedSquare.y<6){
+        if(hittedSquare.x<7 && hittedSquare.y<7){
             if(isSquareEngaged(hittedSquare.x, hittedSquare.y) && isOtherPlayer(board[hittedSquare.y][hittedSquare.x],pawnNumber)){
                 if(!isSquareEngaged(hittedSquare.x+1, hittedSquare.y+1)){
                     return true;
@@ -297,14 +301,35 @@ public class Chessboard{
         pawns[pawnNumber].setPosition(destination);
         if(isHitInMove) {
             hit(source, destination);
-            updatePossibleMovesForContinuation(pawnNumber);
-            if(pawns[pawnNumber].getPossibleMoves().isEmpty())
+            if(!isQueen(pawnNumber) && (destination.y == 0 || destination.y == 7)){
+                setQueen(pawnNumber);
                 updatePossibleMoves();
-
+            }
+            else {
+                updatePossibleMovesForContinuation(pawnNumber);
+                if (pawns[pawnNumber].getPossibleMoves().isEmpty())
+                    updatePossibleMoves();
+            }
         }
         else{
+            if(!isQueen(pawnNumber)){
+                if(isPlayer1(pawnNumber)){
+                    if(destination.y == 0) {
+                        setQueen(pawnNumber);
+                    }
+                }
+                else{
+                    if(destination.y == 7){
+                        setQueen(pawnNumber);
+                    }
+                }
+            }
             updatePossibleMoves();
         }
+
+
+
+
 //        return true;
 
     }
@@ -442,7 +467,7 @@ public class Chessboard{
     }
 
     void setQueen(int pawnNumber){
-        pawns[pawnNumber].isQueen=true;
+        pawns[pawnNumber].setAsQuuen();
     }
 
     public int getPawnNumber(int squareNumber) throws Exception{

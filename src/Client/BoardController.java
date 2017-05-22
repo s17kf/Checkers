@@ -41,6 +41,7 @@ public class BoardController {
     private Boolean isPlayer1White;
     private String player1Name, player2Name;
     private Chessboard board;
+    private ConnectionController connectionController;
 
     public BoardController() throws Exception{
         board=new Chessboard(true);
@@ -80,7 +81,7 @@ public class BoardController {
 //        }
     }
 
-    public void initBoard() throws Exception{
+    public void initBoard(String ipAddress, String portNumber) throws Exception{
         initSquaresMap();
         int colorInfluence = isPlayer1White?0:12;
         if(isPlayer1White){
@@ -91,6 +92,8 @@ public class BoardController {
                 putPawnOnSquare(board.getPawn(i).getPosition().toInt(),Color.BLACK);
             }
         }
+
+        connectionController = new ConnectionController(ipAddress,portNumber);
 //        board.updatePossibleMoves();
     }
 
@@ -112,7 +115,7 @@ public class BoardController {
         int squareNumber = Integer.parseInt(((Shape)event.getSource()).getId().substring(6));
 
         try{
-            System.out.println(squareNumber + " -> " + board.getPawnNumber(squareNumber));
+//            connectionController.sendMessage(squareNumber + " -> " + board.getPawnNumber(squareNumber));
 
 
 
@@ -139,6 +142,7 @@ public class BoardController {
                 /*
                 * In this case move is executed
                  */
+                connectionController.sendMessage("move: " + lastClicked + "to: " + squareNumber);
                 int movedPawnNumber = board.getPawnNumber(lastClicked);
 
                 Color movedPawnColor = board.isPawnWhite(movedPawnNumber) ? Color.WHITE : Color.BLACK;
@@ -177,7 +181,8 @@ public class BoardController {
         int squareNumber = Integer.parseInt(((Shape)event.getSource()).getId().substring(6));
         try {
             if (board.isSquareEngaged(squareNumber)) {
-                ((Pane)((Shape) event.getSource()).getParent()).getChildren().add(1,new Circle(27,27,25, Color.GREEN));
+                Circle highlight = new Circle(27,27,25, Color.GREEN);
+                ((Pane)((Shape) event.getSource()).getParent()).getChildren().add(1, highlight);
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -196,7 +201,16 @@ public class BoardController {
         }catch(Exception e){
             e.printStackTrace();
         }
-    };
+    }
+
+    @FXML
+    public void onEndButtonAction(ActionEvent event){
+        try {
+            connectionController.sendMessage("end connection");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     private void resetClicks(){
         for (Integer number : possibleMoves) {

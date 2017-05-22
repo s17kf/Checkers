@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -41,322 +42,322 @@
                         <Insets left="11.0" right="11.0" />
                     </BorderPane.margin>
                     <children>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
                             <children>
                                 <Rectangle fx:id="square0" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
                             <children>
                                 <Rectangle fx:id="square1" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="0" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="0">
                             <children>
                                 <Rectangle fx:id="square2" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="0" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="0">
                             <children>
                                 <Rectangle fx:id="square3" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="0" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="0">
                             <children>
                                 <Rectangle fx:id="square4" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="0" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="0">
                             <children>
                                 <Rectangle fx:id="square5" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="0" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="0">
                             <children>
                                 <Rectangle fx:id="square6" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="0" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="0">
                             <children>
                                 <Rectangle fx:id="square7" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
                             <children>
                                 <Rectangle fx:id="square8" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <children>
                                 <Rectangle fx:id="square9" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                             <children>
                                 <Rectangle fx:id="square10" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                             <children>
                                 <Rectangle fx:id="square11" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
                             <children>
                                 <Rectangle fx:id="square12" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="1" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
                             <children>
                                 <Rectangle fx:id="square13" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="1" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
                             <children>
                                 <Rectangle fx:id="square14" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="1" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="1">
                             <children>
                                 <Rectangle fx:id="square15" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
                             <children>
                                 <Rectangle fx:id="square16" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                             <children>
                                 <Rectangle fx:id="square17" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                             <children>
                                 <Rectangle fx:id="square18" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
                             <children>
                                 <Rectangle fx:id="square19" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
                             <children>
                                 <Rectangle fx:id="square20" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="2" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="2">
                             <children>
                                 <Rectangle fx:id="square21" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="2" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="2">
                             <children>
                                 <Rectangle fx:id="square22" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="2" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="2">
                             <children>
                                 <Rectangle fx:id="square23" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="3" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="3">
                             <children>
                                 <Rectangle fx:id="square24" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                             <children>
                                 <Rectangle fx:id="square25" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                             <children>
                                 <Rectangle fx:id="square26" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="3" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
                             <children>
                                 <Rectangle fx:id="square27" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
                             <children>
                                 <Rectangle fx:id="square28" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="3" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="3">
                             <children>
                                 <Rectangle fx:id="square29" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="3" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="3">
                             <children>
                                 <Rectangle fx:id="square30" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="3" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="3">
                             <children>
                                 <Rectangle fx:id="square31" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="4" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="4">
                             <children>
                                 <Rectangle fx:id="square32" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                             <children>
                                 <Rectangle fx:id="square33" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
                             <children>
                                 <Rectangle fx:id="square34" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="4" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
                             <children>
                                 <Rectangle fx:id="square35" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="4" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
                             <children>
                                 <Rectangle fx:id="square36" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="4" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="4">
                             <children>
                                 <Rectangle fx:id="square37" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="4" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="4">
                             <children>
                                 <Rectangle fx:id="square38" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="4" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="4">
                             <children>
                                 <Rectangle fx:id="square39" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="5" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="5">
                             <children>
                                 <Rectangle fx:id="square40" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                             <children>
                                 <Rectangle fx:id="square41" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="5" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
                             <children>
                                 <Rectangle fx:id="square42" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="5" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="5">
                             <children>
                                 <Rectangle fx:id="square43" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="5" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="5">
                             <children>
                                 <Rectangle fx:id="square44" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="5" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="5">
                             <children>
                                 <Rectangle fx:id="square45" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="5" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="5">
                             <children>
                                 <Rectangle fx:id="square46" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="5" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="5">
                             <children>
                                 <Rectangle fx:id="square47" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="6" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="6">
                             <children>
                                 <Rectangle fx:id="square48" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                             <children>
                                 <Rectangle fx:id="square49" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="6" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="6">
                             <children>
                                 <Rectangle fx:id="square50" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="6" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="6">
                             <children>
                                 <Rectangle fx:id="square51" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="6" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="6">
                             <children>
                                 <Rectangle fx:id="square52" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="6" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="6">
                             <children>
                                 <Rectangle fx:id="square53" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="6" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="6">
                             <children>
                                 <Rectangle fx:id="square54" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="6" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="6">
                             <children>
                                 <Rectangle fx:id="square55" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="7" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="7">
                             <children>
                                 <Rectangle fx:id="square56" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
                             <children>
                                 <Rectangle fx:id="square57" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="7" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="7">
                             <children>
                                 <Rectangle fx:id="square58" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="7" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="7">
                             <children>
                                 <Rectangle fx:id="square59" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="7" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="7">
                             <children>
                                 <Rectangle fx:id="square60" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="7" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="7">
                             <children>
                                 <Rectangle fx:id="square61" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="7" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="7">
                             <children>
                                 <Rectangle fx:id="square62" arcHeight="5.0" arcWidth="5.0" fill="GREY" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="7" >
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="7">
                             <children>
                                 <Rectangle fx:id="square63" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="55.0" onMouseClicked="#onSquareClicked" onMouseEntered="#onSquareEntered" onMouseExited="#onSquareExited" stroke="BLACK" strokeType="INSIDE" width="55.0" />
                             </children>
@@ -379,6 +380,9 @@
         <Pane prefHeight="97.0" prefWidth="706.0" BorderPane.alignment="CENTER" />
     </top>
     <right>
-        <Pane prefHeight="542.0" prefWidth="244.0" BorderPane.alignment="CENTER" />
+        <Pane prefHeight="542.0" prefWidth="244.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button id="endButton" layoutX="96.0" layoutY="259.0" mnemonicParsing="false" onAction="#onEndButtonAction" text="End Connection" />
+         </children></Pane>
     </right>
 </BorderPane>

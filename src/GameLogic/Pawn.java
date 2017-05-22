@@ -88,6 +88,9 @@ public class Pawn{
         return position.toInt().toString();
     }
 
+    void setAsQuuen(){
+        isQueen=true;
+    }
 
 
 }

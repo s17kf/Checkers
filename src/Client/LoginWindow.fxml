@@ -8,25 +8,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="356.0" prefWidth="440.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.LoginController">
-   <center>
-      <Pane prefHeight="295.0" prefWidth="564.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="gameCreateButton" layoutX="298.0" layoutY="76.0" mnemonicParsing="false" onAction="#onCreateGameClick" text="Create new game" />
-            <Label layoutX="169.0" layoutY="11.0" text="Creating new game" />
-            <Label layoutX="74.0" layoutY="45.0" text="Your name:" />
-            <TextField fx:id="name1" layoutX="149.0" layoutY="41.0" />
-            <Line endX="310.0" layoutX="115.0" layoutY="113.0" startX="-100.0" strokeMiterLimit="100.0" />
-            <TextField fx:id="name2" layoutX="149.0" layoutY="156.0" />
-            <TextField fx:id="addressIP" layoutX="149.0" layoutY="192.0" />
-            <Label layoutX="75.0" layoutY="160.0" text="Your name:" />
-            <Label layoutX="77.0" layoutY="196.0" text="Serwers IP:" />
-            <Button fx:id="joinButton" layoutX="298.0" layoutY="228.0" mnemonicParsing="false" onAction="#onJoinClick" text="Join" />
-            <Label layoutX="175.0" layoutY="124.0" text="Joining to game" />
-            <Line endX="310.0" layoutX="115.0" layoutY="2.0" startX="-100.0" />
-         </children>
-      </Pane>
-   </center>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="423.0" prefWidth="440.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.LoginController">
    <top>
       <Pane prefHeight="87.0" prefWidth="440.0" BorderPane.alignment="CENTER">
          <children>
@@ -38,4 +20,30 @@
          </children>
       </Pane>
    </top>
+   <center>
+      <Pane prefHeight="320.0" prefWidth="440.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="169.0" layoutY="11.0" text="Creating new game" />
+
+            <Line endX="310.0" layoutX="115.0" layoutY="2.0" startX="-100.0" />
+
+            <Label layoutX="74.0" layoutY="45.0" text="Your name:" />
+            <TextField fx:id="name1" layoutX="149.0" layoutY="41.0" />
+            <Label layoutX="64.0" layoutY="82.0" text="Port number:" />
+            <TextField fx:id="port1" layoutX="149.0" layoutY="78.0" />
+            <Button fx:id="gameCreateButton" layoutX="306.0" layoutY="113.0" mnemonicParsing="false" onAction="#onCreateGameClick" text="Create new game" />
+
+            <Line endX="310.0" layoutX="118.0" layoutY="149.0" startX="-100.0" strokeMiterLimit="100.0" />
+
+            <Label layoutX="177.0" layoutY="160.0" text="Joining to game" />
+            <Label layoutX="74.0" layoutY="196.0" text="Your name:" />
+            <TextField fx:id="name2" layoutX="149.0" layoutY="192.0" />
+            <Label layoutX="77.0" layoutY="232.0" text="Serwers IP:" />
+            <TextField fx:id="addressIP" layoutX="149.0" layoutY="228.0" />
+            <Label layoutX="64.0" layoutY="268.0" text="Port number:" />
+            <TextField fx:id="port2" layoutX="149.0" layoutY="264.0" />
+            <Button fx:id="joinButton" layoutX="306.0" layoutY="297.0" mnemonicParsing="false" onAction="#onJoinClick" text="Join" />
+         </children>
+      </Pane>
+   </center>
 </BorderPane>
