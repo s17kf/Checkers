@@ -24,11 +24,40 @@ public class Pawn{
         position=new Coordinates(squareNumber);
     }
     void setPosition(Coordinates newPosition){
-        position=newPosition;
+        position= new Coordinates(newPosition);
     }
 
     public Coordinates getPosition() {
         return position;
+    }
+
+    public int getX(){
+        return position.getX();
+    }
+
+    public int getY(){
+        return position.getY();
+    }
+
+    Boolean goOneTo(Coordinates destination) throws Exception{
+        if( Math.abs(destination.x - position.getX()) != Math.abs(destination.y - position.getY()))
+            throw new Exception("Destination is not in stright line move! source=" + toString() + "; destination=" + destination.toString());
+        if(destination.y == position.getY())
+            return false;
+        if(destination.y < position.getY()){
+            if(destination.x < position.getX())
+                position.goUpLeft();
+            else
+                position.goUpRight();
+        }
+        else {
+            if (destination.x < position.getX())
+                position.goDownLeft();
+            else
+                position.goDownRight();
+        }
+
+        return destination.y != position.getY();
     }
 
     void addPossibleMove(Coordinates destination, Boolean isHit) throws Exception {
@@ -50,6 +79,7 @@ public class Pawn{
                 onlyHits.add(possibleMove);
             }
         }
+
         possibleMoves=onlyHits;
     }
 
@@ -75,10 +105,14 @@ public class Pawn{
         return possibleMoves;
     }
 
+    public void setPossibleMoves(Vector<PawnPossibleMove> possibleMoves) {
+        this.possibleMoves = possibleMoves;
+    }
+
     public Vector<Integer> getPossibleMovesAssIntegers(){
         Vector<Integer> result=new Vector<Integer>();
         for(PawnPossibleMove possibleMove:possibleMoves){
-            result.add(possibleMove.destination.toInt());
+            result.add(possibleMove.toInt());
         }
         return result;
     }
@@ -88,28 +122,35 @@ public class Pawn{
         return position.toInt().toString();
     }
 
-    void setAsQuuen(){
+    void setAsQueen(){
         isQueen=true;
     }
 
 
 }
 
-class PawnPossibleMove{
-    protected Coordinates destination;
+class PawnPossibleMove extends Coordinates{
     protected Boolean isHit;
+    int countOfPossibleHits;
 
-    public PawnPossibleMove(Coordinates destination,Boolean isHit) throws Exception {
+    public PawnPossibleMove(Coordinates destination,Boolean isHit){
 //		this.destination=destination;
-        this.destination=new Coordinates(destination.toInt());
+//        this.destination=new Coordinates(destination.toInt());
+        super(destination);
         this.isHit=new Boolean(isHit);
+        countOfPossibleHits = 0;
     }
 
-    public Coordinates getDestination() {
-        return destination;
+    public void setCountOfPossibleHits(int countOfPossibleHits) {
+        this.countOfPossibleHits = countOfPossibleHits;
+    }
+
+    public int getCountOfPossibleHits() {
+        return countOfPossibleHits;
     }
 
     public Boolean getHit() {
         return isHit;
     }
+
 }

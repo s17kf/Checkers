@@ -46,6 +46,13 @@ public class Server implements Runnable {
 
         System.out.println("player1 address: " + players[0].getRemoteSocketAddress());
 
+        try {
+            DataOutputStream out = new DataOutputStream(players[0].getOutputStream());
+            out.writeUTF("2");
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
         while (true) {
             try {
                 DataInputStream in = new DataInputStream(players[0].getInputStream());
@@ -60,7 +67,7 @@ public class Server implements Runnable {
                     break;
                 }
 
-            }catch (Exception e) {
+            }catch (IOException e) {
                 e.printStackTrace();
                 break;
             }

@@ -1,5 +1,7 @@
 package GameLogic;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 /**
  * Created by Stefan on 2017-05-19.
  */
@@ -9,9 +11,16 @@ public class Coordinates{
     int x;
     int y;
 
+    public Coordinates(Coordinates other){
+//        x = other.x;
+//        y = other.y;
+        x = new Integer(other.x);
+        y = new Integer(other.y);
+    }
+
     public Coordinates(int x, int y) throws Exception {
         if(x>7 || y>7 || x<0 || y<0)
-            throw new Exception("Bad coordinates!");
+            throw new Exception("Bad coordinates:" + x + y);
         this.x = x;
         this.y = y;
     }
@@ -29,6 +38,43 @@ public class Coordinates{
 
     static Coordinates toCoordinates(int value) throws Exception{
         return new Coordinates(value);
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    Boolean goUpLeft(){
+        if(y == 0 || x == 0)
+            return false;
+        y--;
+        x--;
+        return true;
+    }
+    Boolean goUpRight(){
+        if(y == 0 || x == 7)
+            return false;
+        y--;
+        x++;
+        return true;
+    }
+    Boolean goDownLeft(){
+        if(y == 7 || x == 0)
+            return false;
+        y++;
+        x--;
+        return true;
+    }
+    Boolean goDownRight(){
+        if(y == 7 || x == 7)
+            return false;
+        y++;
+        x++;
+        return true;
     }
 
     @Override

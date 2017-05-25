@@ -44,8 +44,8 @@ public class LogicTest{
 
         System.out.println(cb.toString());
 
-        cb.setQueen(23);
-        cb.setQueen(20);
+        cb.setAsQueen(23);
+        cb.setAsQueen(20);
         System.out.println(cb.possibleMoves(23));
         System.out.println(cb.possibleMoves(20));
         cb.movePawnTo(5, new Coordinates(44));

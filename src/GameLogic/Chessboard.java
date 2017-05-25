@@ -4,249 +4,373 @@ package GameLogic;
  * Created by Stefan on 2017-05-19.
  */
 
-import java.util.Arrays;
 import java.util.Vector;
 
 
-public class Chessboard{
+public class Chessboard extends PrimitiveChessboard{
 
-    int board[][];	//board[Y][X] !!! ( no [x][y] )
-    Pawn pawns[];
-    Boolean isPlayer1white;
-    Boolean isPossibleHit;
-    int activePlayer;
+//    int board[][];	//board[Y][X] !!! ( no [x][y] )
+//    Pawn pawns[];
+//    Boolean isPlayer1white;
+//    Boolean isPossibleHit;
+//    int activePlayer;
     Vector<Integer> hitsInLastMove;
-//	Boolean hitInLastMove;
+////	Boolean hitInLastMove;
 
     public Chessboard(Boolean isPlayer1White) throws Exception{
-        this.isPlayer1white = isPlayer1White;
-        if(isPlayer1White)
-            activePlayer=1;
-        else
-            activePlayer=2;
-        isPossibleHit=false;
-//		hitInLastMove=false;
-        board = new int[8][8];
-        pawns = new Pawn[24];
+        super(isPlayer1White);
+        activePlayer = 1;
+
         hitsInLastMove = new Vector<>();
-        for(int i=0;i<64;i++){
-            board[i/8][i%8]=-1;
-        }
-        for(int i=0;i<4;i++){
-            pawns[i]=new Pawn(62-i*2);
-            pawns[i+4]=new Pawn(55-i*2);
-            pawns[i+8]=new Pawn(46-i*2);
-            pawns[i+12]=new Pawn(i*2+1);
-            pawns[i+16]=new Pawn(8+i*2);
-            pawns[i+20]=new Pawn(17+i*2);
-        }
-        board[7][6] = (board[7][4] = (board[7][2] = (board[7][0] = 3) - 1) - 1) - 1;
-        board[6][7] = (board[6][5] = (board[6][3] = (board[6][1] = 7) - 1) - 1) - 1;
-        board[5][6] = (board[5][4] = (board[5][2] = (board[5][0] = 11) - 1) - 1) - 1;
-
-        board[0][7] = (board[0][5] = (board[0][3] = (board[0][1] = 12) + 1) + 1) + 1;
-        board[1][6] = (board[1][4] = (board[1][2] = (board[1][0] = 16) + 1) + 1) + 1;
-        board[2][7] = (board[2][5] = (board[2][3] = (board[2][1] = 20) + 1) + 1) + 1;
-
-        updatePossibleMoves();
     }
 
+    @Override
     public void updatePossibleMoves() throws Exception{
+        int activePlayerShift = activePlayer == 1 ? 0 : 12;
+//        System.out.println(activePlayerShift);
         isPossibleHit=false;
-        for(int i=0;i<24;i++)
-            updatePossibleMoves(i);
+        for(int i = 0 + activePlayerShift; i < 12 + activePlayerShift; i++) {
+            if(pawns[i].isPlaying)
+                updatePossibleMoves(i);
+        }
+        if(isPossibleHit){
+            for(int i = 0 + activePlayerShift; i < 12 + activePlayerShift; i++){
+//                pawns[i].leaveOnlyHitsAsPossibleMoves();
+                leaveLongestHits(i);
+            }
+        }
     }
 
-    private void updatePossibleMoves(int pawnNumber) throws Exception{
-        pawns[pawnNumber].resetPossibleMoves();
-        Coordinates pawnPosition=pawns[pawnNumber].position;
+    private void leaveLongestHits(int pawnNumber) throws Exception{
+        Pawn checkedPawn = pawns[pawnNumber];
+        checkedPawn.leaveOnlyHitsAsPossibleMoves();
+        Coordinates originalPosition = new Coordinates(checkedPawn.getPosition());
+        Vector<PawnPossibleMove> originalPossibleMoves = new Vector<>(checkedPawn.getPossibleMoves());
+        for(PawnPossibleMove possibleMove : originalPossibleMoves){
+            checkedPawn.setPosition(originalPosition);
+            Vector<Integer> hittedPawns = new Vector<>();
+            while (checkedPawn.goOneTo(possibleMove)){
+                if(board[checkedPawn.getY()][checkedPawn.getX()] > -1){
+                    hittedPawns.add(board[checkedPawn.getY()][checkedPawn.getX()]);
+                }
+            }
+            possibleMove.setCountOfPossibleHits(countHits(pawnNumber, checkedPawn, hittedPawns));
+        }
+        checkedPawn.setPosition(originalPosition);
+        int lengthOfLongestHit = 0;
+        for(PawnPossibleMove possibleMove : originalPossibleMoves){
+            lengthOfLongestHit = Math.max(lengthOfLongestHit, possibleMove.getCountOfPossibleHits());
+        }
+        Vector<PawnPossibleMove> newPossibleMoves = new Vector<>();
+        for(PawnPossibleMove possibleMove : originalPossibleMoves){
+            if((possibleMove.getCountOfPossibleHits()) == lengthOfLongestHit)
+                newPossibleMoves.add(possibleMove);
+        }
+        checkedPawn.setPossibleMoves(newPossibleMoves);
+    }
+
+    private int countHits(int pawnNumber, Pawn checkedPawn, Vector<Integer> hittedPawns) throws Exception{
+//        System.out.println(pawnNumber + ": " + checkedPawn.getPosition());
+        updatePossibleMoves(pawnNumber, checkedPawn, true, hittedPawns);
+        checkedPawn.leaveOnlyHitsAsPossibleMoves();
+        if(checkedPawn.getPossibleMoves().isEmpty())
+            return 1;
+
+        int bestResult = 0;
+        Coordinates originalPosition = new Coordinates(checkedPawn.getPosition());
+        Vector<Coordinates> originalPossibleMoves = new Vector<>(checkedPawn.getPossibleMoves());
+        Vector<Integer> originalHittedPawns = new Vector<>(hittedPawns);
+        for(Coordinates possibleMove : originalPossibleMoves){
+            checkedPawn.setPosition(originalPosition);
+            hittedPawns = originalHittedPawns;
+            while(checkedPawn.goOneTo(possibleMove)){
+                if(board[checkedPawn.getY()][checkedPawn.getX()] > -1){
+                    hittedPawns.add((board[checkedPawn.getY()][checkedPawn.getX()]));
+                }
+            }
+            bestResult = Math.max(bestResult, countHits(pawnNumber, checkedPawn,new Vector<>(hittedPawns)));
+        }
+
+
+        return bestResult + 1;
+
+    }
+
+
+    private void updatePossibleMoves(int pawnNumber, Pawn pawn, Boolean isItForCountHits, Vector<Integer> hittedPawns) throws Exception{
+        pawn.resetPossibleMoves();
+        Coordinates pawnPosition = new Coordinates(pawn.getPosition());
         if(isQueen(pawnNumber)){
-            if(pawnPosition.x>0 && pawnPosition.y>0)
-                addQueenPossibleUpLeft(pawnNumber, new Coordinates(pawnPosition.x-1, pawnPosition.y-1), pawns[pawnNumber].possibleMoves);
-            if(pawnPosition.x<7 && pawnPosition.y>0)
-                addQueenPossibleUpRight(pawnNumber, new Coordinates(pawnPosition.x+1, pawnPosition.y-1), pawns[pawnNumber].possibleMoves);
-            if(pawnPosition.x>0 && pawnPosition.y<7)
-                addQueenPossibleDownLeft(pawnNumber, new Coordinates(pawnPosition.x-1, pawnPosition.y+1), pawns[pawnNumber].possibleMoves);
-            if(pawnPosition.x<7 && pawnPosition.y<7)
-                addQueenPossibleDownRight(pawnNumber, new Coordinates(pawnPosition.x+1, pawnPosition.y+1), pawns[pawnNumber].possibleMoves);
+            if(pawnPosition.goUpLeft()) {
+                addQueenPossibleUpLeft(pawnNumber, new Coordinates(pawnPosition), false, isItForCountHits, hittedPawns);
+
+                pawnPosition.goDownRight();
+            }
+            if(pawnPosition.goUpRight()) {
+                addQueenPossibleUpRight(pawnNumber, new Coordinates(pawnPosition), false, isItForCountHits, hittedPawns);
+
+                pawnPosition.goDownLeft();
+            }
+            if(pawnPosition.goDownLeft()) {
+                addQueenPossibleDownLeft(pawnNumber, new Coordinates(pawnPosition), false, isItForCountHits, hittedPawns);
+
+                pawnPosition.goUpRight();
+            }
+            if(pawnPosition.goDownRight()) {
+                addQueenPossibleDownRight(pawnNumber, new Coordinates(pawnPosition), false, isItForCountHits, hittedPawns);
+
+                pawnPosition.goUpLeft();
+            }
         }
         else{
             if(isPlayer1(pawnNumber)){
-                if(pawnPosition.y>0){
-                    if(pawnPosition.x>0 && !isSquareEngaged(pawnPosition.x-1, pawnPosition.y-1))
-                        pawns[pawnNumber].addPossibleMove(pawnPosition.x-1, pawnPosition.y-1, false);
-                    if(pawnPosition.x<7 && !isSquareEngaged(pawnPosition.x+1, pawnPosition.y-1))
-                        pawns[pawnNumber].addPossibleMove(pawnPosition.x+1, pawnPosition.y-1, false);
+                if(pawnPosition.goUpLeft()){
+                    if(!isSquareEngaged(pawnPosition))
+                        pawn.addPossibleMove(pawnPosition, false);
+                    pawnPosition.goDownRight();
+                }
+                if(pawnPosition.goUpRight()){
+                    if(!isSquareEngaged(pawnPosition))
+                        pawn.addPossibleMove(pawnPosition, false);
+                    pawnPosition.goDownLeft();
                 }
             }
             else{
-                if(pawnPosition.y<7){
-                    if(pawnPosition.x>0 && !isSquareEngaged(pawnPosition.x-1, pawnPosition.y+1))
-                        pawns[pawnNumber].addPossibleMove(pawnPosition.x-1, pawnPosition.y+1, false);
-                    if(pawnPosition.x<7 && !isSquareEngaged(pawnPosition.x+1, pawnPosition.y+1))
-                        pawns[pawnNumber].addPossibleMove(pawnPosition.x+1, pawnPosition.y+1, false);
+                if(pawnPosition.goDownLeft()){
+                    if(!isSquareEngaged(pawnPosition))
+                        pawn.addPossibleMove(pawnPosition, false);
+                    pawnPosition.goUpRight();
+                }
+                if(pawnPosition.goDownRight()){
+                    if(!isSquareEngaged(pawnPosition))
+                        pawn.addPossibleMove(pawnPosition, false);
+                    pawnPosition.goUpLeft();
                 }
             }
-            if(checkHitUpLeft(pawnNumber)){
-                pawns[pawnNumber].addPossibleMove(pawnPosition.x-2, pawnPosition.y-2, true);
-                isPossibleHit=true;
+            if(!isItForCountHits) {
+                if (checkHitUpLeft(pawnNumber)) {
+                    pawn.addPossibleMove(pawnPosition.x - 2, pawnPosition.y - 2, true);
+                    isPossibleHit = true;
+                }
+                if (checkHitUpRight(pawnNumber)) {
+                    pawn.addPossibleMove(pawnPosition.x + 2, pawnPosition.y - 2, true);
+                    isPossibleHit = true;
+                }
+                if (checkHitDownLeft(pawnNumber)) {
+                    pawn.addPossibleMove(pawnPosition.x - 2, pawnPosition.y + 2, true);
+                    isPossibleHit = true;
+                }
+                if (checkHitDownRight(pawnNumber)) {
+                    pawn.addPossibleMove(pawnPosition.x + 2, pawnPosition.y + 2, true);
+                    isPossibleHit = true;
+                }
             }
-            if(checkHitUpRight(pawnNumber)){
-                pawns[pawnNumber].addPossibleMove(pawnPosition.x+2, pawnPosition.y-2, true);
-                isPossibleHit=true;
-            }
-            if(checkHitDownLeft(pawnNumber)){
-                pawns[pawnNumber].addPossibleMove(pawnPosition.x-2, pawnPosition.y+2, true);
-                isPossibleHit=true;
-            }
-            if(checkHitDownRight(pawnNumber)){
-                pawns[pawnNumber].addPossibleMove(pawnPosition.x+2, pawnPosition.y+2, true);
-                isPossibleHit=true;
+            else{
+                Coordinates possibleHittedSquare = new Coordinates(pawnPosition);
+                if(possibleHittedSquare.goUpLeft()) {
+                    if (checkHitUpLeft(pawnNumber, possibleHittedSquare, true, hittedPawns)) {
+                        pawn.addPossibleMove(pawnPosition.x - 2, pawnPosition.y - 2, true);
+                    }
+                    possibleHittedSquare.goDownRight();
+                }
+                if(possibleHittedSquare.goUpRight()) {
+                    if (checkHitUpRight(pawnNumber, possibleHittedSquare, true, hittedPawns)) {
+                        pawn.addPossibleMove(pawnPosition.x + 2, pawnPosition.y - 2, true);
+                    }
+                    possibleHittedSquare.goDownLeft();
+                }
+                if(possibleHittedSquare.goDownLeft()) {
+                    if (checkHitDownLeft(pawnNumber, possibleHittedSquare, true, hittedPawns)) {
+                        pawn.addPossibleMove(pawnPosition.x - 2, pawnPosition.y + 2, true);
+                    }
+                    possibleHittedSquare.goUpRight();
+                }
+                if(possibleHittedSquare.goDownRight()) {
+                    if (checkHitDownRight(pawnNumber, possibleHittedSquare, true, hittedPawns)) {
+                        pawn.addPossibleMove(pawnPosition.x + 2, pawnPosition.y + 2, true);
+                    }
+                    possibleHittedSquare.goUpLeft();
+                }
             }
         }
     }
 
-    private void updatePossibleMovesForContinuation(int pawnNumber) throws Exception{
+    @Override
+    protected void updatePossibleMovesForContinuation(int pawnNumber) throws Exception{
         for(Pawn pawn:pawns){
             pawn.resetPossibleMoves();
         }
         updatePossibleMoves(pawnNumber);
-        pawns[pawnNumber].leaveOnlyHitsAsPossibleMoves();
+//        pawns[pawnNumber].leaveOnlyHitsAsPossibleMoves();
+        leaveLongestHits(pawnNumber);
     }
 
-    private void addQueenPossibleUpLeft(int pawnNumber,Coordinates checkedSquare,Vector<PawnPossibleMove> possibleMovesVector) throws Exception{
+
+    private void addQueenPossibleUpLeft(int pawnNumber,Coordinates checkedSquare, Boolean isHit, Boolean isItForCountHits, Vector<Integer> hittedPawns) throws Exception{
         if(!isSquareEngaged(checkedSquare)){
-            possibleMovesVector.add(new PawnPossibleMove(checkedSquare, false));
-            if(checkedSquare.x>0 && checkedSquare.y>0)
-                addQueenPossibleUpLeft(pawnNumber, new Coordinates(checkedSquare.x-1, checkedSquare.y-1), possibleMovesVector);
+            pawns[pawnNumber].addPossibleMove(checkedSquare, isHit);
+            if(checkedSquare.goUpLeft())
+                addQueenPossibleUpLeft(pawnNumber, new Coordinates(checkedSquare), isHit, isItForCountHits, hittedPawns);
             return;
         }
-        if(checkHitUpLeft(pawnNumber, checkedSquare)){
-            possibleMovesVector.add(new PawnPossibleMove(new Coordinates(checkedSquare.x-1, checkedSquare.y-1), true));
-            if(checkedSquare.x > 1 && checkedSquare.y > 1)
-                addQueenPossibleUpLeft(pawnNumber, new Coordinates(checkedSquare.x-2, checkedSquare.y-2), possibleMovesVector);
+        if(!isItForCountHits) {
+            if (checkHitUpLeft(pawnNumber, checkedSquare)) {
+                isPossibleHit = true;
+                checkedSquare.goUpLeft();
+                pawns[pawnNumber].addPossibleMove(checkedSquare, true);
+                if (checkedSquare.goUpLeft())
+                    addQueenPossibleUpLeft(pawnNumber, new Coordinates(checkedSquare), true, false, hittedPawns);
+            }
+        }
+        else{
+            if(checkHitUpLeft(pawnNumber,checkedSquare, true, hittedPawns) ){
+                checkedSquare.goUpLeft();
+                pawns[pawnNumber].addPossibleMove(checkedSquare, true);
+                if(checkedSquare.goUpLeft())
+                    addQueenPossibleUpLeft(pawnNumber, new Coordinates(checkedSquare), true, true, hittedPawns);
+            }
         }
     }
-    private void addQueenPossibleUpRight(int pawnNumber,Coordinates checkedSquare,Vector<PawnPossibleMove> possibleMovesVector) throws Exception{
+    private void addQueenPossibleUpRight(int pawnNumber,Coordinates checkedSquare, Boolean isHit, Boolean isItForCountHits, Vector<Integer> hittedPawns) throws Exception{
         if(!isSquareEngaged(checkedSquare)){
-            possibleMovesVector.add(new PawnPossibleMove(checkedSquare, false));
-            if(checkedSquare.x<7 && checkedSquare.y>0)
-                addQueenPossibleUpRight(pawnNumber, new Coordinates(checkedSquare.x+1, checkedSquare.y-1), possibleMovesVector);
+            pawns[pawnNumber].addPossibleMove(checkedSquare, isHit);
+            if(checkedSquare.goUpRight())
+                addQueenPossibleUpRight(pawnNumber, new Coordinates(checkedSquare), isHit, isItForCountHits, hittedPawns);
             return;
         }
-        if(checkHitUpRight(pawnNumber, checkedSquare)){
-            possibleMovesVector.add(new PawnPossibleMove(new Coordinates(checkedSquare.x+1, checkedSquare.y-1), true));
-            if(checkedSquare.x < 6 && checkedSquare.y > 1)
-                addQueenPossibleUpRight(pawnNumber, new Coordinates(checkedSquare.x+2, checkedSquare.y-2), possibleMovesVector);
+        if(!isItForCountHits) {
+            if (checkHitUpRight(pawnNumber, checkedSquare)) {
+                isPossibleHit = true;
+                checkedSquare.goUpRight();
+                pawns[pawnNumber].addPossibleMove(checkedSquare, true);
+                if (checkedSquare.goUpRight())
+                    addQueenPossibleUpRight(pawnNumber, new Coordinates(checkedSquare), true, false, hittedPawns);
+            }
+        }
+        else{
+            if(checkHitUpRight(pawnNumber,checkedSquare, true, hittedPawns)){
+                checkedSquare.goUpRight();
+                pawns[pawnNumber].addPossibleMove(checkedSquare, true);
+                if(checkedSquare.goUpRight())
+                    addQueenPossibleUpRight(pawnNumber,new Coordinates(checkedSquare), true, true, hittedPawns);
+            }
         }
     }
-    private void addQueenPossibleDownLeft(int pawnNumber,Coordinates checkedSquare,Vector<PawnPossibleMove> possibleMovesVector) throws Exception{
+    private void addQueenPossibleDownLeft(int pawnNumber,Coordinates checkedSquare, Boolean isHit, Boolean isItForCountHits, Vector<Integer> hittedPawns) throws Exception{
         if(!isSquareEngaged(checkedSquare)){
-            possibleMovesVector.add(new PawnPossibleMove(checkedSquare, false));
-            if(checkedSquare.x>0 && checkedSquare.y<7)
-                addQueenPossibleDownLeft(pawnNumber, new Coordinates(checkedSquare.x-1, checkedSquare.y+1), possibleMovesVector);
+            pawns[pawnNumber].addPossibleMove(checkedSquare, isHit);
+            if(checkedSquare.goDownLeft())
+                addQueenPossibleDownLeft(pawnNumber, new Coordinates(checkedSquare), isHit, isItForCountHits, hittedPawns);
             return;
         }
-        if(checkHitDownLeft(pawnNumber, checkedSquare)){
-            possibleMovesVector.add(new PawnPossibleMove(new Coordinates(checkedSquare.x-1, checkedSquare.y+1), true));
-            if(checkedSquare.x > 1 && checkedSquare.y < 6)
-                addQueenPossibleDownLeft(pawnNumber, new Coordinates(checkedSquare.x-2, checkedSquare.y+2), possibleMovesVector);
+        if(!isItForCountHits) {
+            if (checkHitDownLeft(pawnNumber, checkedSquare)) {
+                isPossibleHit = true;
+                checkedSquare.goDownLeft();
+                pawns[pawnNumber].addPossibleMove(checkedSquare, true);
+                if (checkedSquare.goDownLeft())
+                    addQueenPossibleDownLeft(pawnNumber, new Coordinates(checkedSquare), true, false, hittedPawns);
+            }
+        }
+        else{
+            if(checkHitDownLeft(pawnNumber, checkedSquare, true, hittedPawns)){
+                checkedSquare.goDownLeft();
+                pawns[pawnNumber].addPossibleMove(checkedSquare, true);
+                if(checkedSquare.goDownLeft())
+                    addQueenPossibleDownLeft(pawnNumber,new Coordinates(checkedSquare), true, true, hittedPawns);
+            }
         }
     }
-    private void addQueenPossibleDownRight(int pawnNumber,Coordinates checkedSquare,Vector<PawnPossibleMove> possibleMovesVector) throws Exception{
+    private void addQueenPossibleDownRight(int pawnNumber,Coordinates checkedSquare, Boolean isHit, Boolean isItForCountHits, Vector<Integer> hittedPawns) throws Exception{
         if(!isSquareEngaged(checkedSquare)){
-            possibleMovesVector.add(new PawnPossibleMove(checkedSquare, false));
-            if(checkedSquare.x<7 && checkedSquare.y<7)
-                addQueenPossibleDownRight(pawnNumber, new Coordinates(checkedSquare.x+1, checkedSquare.y+1), possibleMovesVector);
+            pawns[pawnNumber].addPossibleMove(checkedSquare, isHit);
+            if(checkedSquare.goDownRight())
+                addQueenPossibleDownRight(pawnNumber, new Coordinates(checkedSquare), isHit, isItForCountHits, hittedPawns);
             return;
         }
-        if(checkHitDownRight(pawnNumber, checkedSquare)){
-            possibleMovesVector.add(new PawnPossibleMove(new Coordinates(checkedSquare.x+1, checkedSquare.y+1), true));
-            if(checkedSquare.x <6 && checkedSquare.y <6)
-                addQueenPossibleDownRight(pawnNumber, new Coordinates(checkedSquare.x+2, checkedSquare.y+2), possibleMovesVector);
+        if(!isItForCountHits) {
+            if (checkHitDownRight(pawnNumber, checkedSquare)) {
+                isPossibleHit = true;
+                checkedSquare.goDownRight();
+                pawns[pawnNumber].addPossibleMove(checkedSquare, true);
+                if (checkedSquare.goDownRight())
+                    addQueenPossibleDownRight(pawnNumber, new Coordinates(checkedSquare), true, false, hittedPawns);
+            }
+        }
+        else{
+            if (checkHitDownRight(pawnNumber, checkedSquare, true, hittedPawns)) {
+                checkedSquare.goDownRight();
+                pawns[pawnNumber].addPossibleMove(checkedSquare, true);
+                if (checkedSquare.goDownRight())
+                    addQueenPossibleDownRight(pawnNumber, new Coordinates(checkedSquare), true, true, hittedPawns);
+            }
         }
     }
 
 
-    private Boolean checkHitUpLeft(int pawnNumber) throws Exception{
-        Coordinates pawnPosition=pawns[pawnNumber].position;
-        if(pawnPosition.x>1 && pawnPosition.y>1){
-            if(isSquareEngaged(pawnPosition.x-1, pawnPosition.y-1) && isOtherPlayer(board[pawnPosition.y-1][pawnPosition.x-1],pawnNumber)){
-                if(!isSquareEngaged(pawnPosition.x-2, pawnPosition.y-2)){
+    private Boolean checkHitUpLeft(int pawnNumber, Coordinates hittedSquare, Boolean isItForCountHits, Vector<Integer> hittedPawns) throws Exception{
+//        System.out.println("checking hit up left pNumber:" + pawnNumber + "checkedSquare: " + hittedSquare);
+        if(hittedSquare.getX() > 0 && hittedSquare.getY() > 0){
+            if(isSquareEngaged(hittedSquare) && isOtherPlayer(board[hittedSquare.getY()][hittedSquare.getX()],pawnNumber)){
+                if(isItForCountHits){
+                    if(hittedPawns.contains(getPawnNumber(hittedSquare.toInt())))
+                        return false;
+                    if(!isSquareEngaged(hittedSquare.getX() - 1 , hittedSquare.getY() - 1) || (board[hittedSquare.getY() - 1][hittedSquare.getX() - 1] == pawnNumber))
+                        return true;
+                    return false;
+                }
+                if(!isSquareEngaged(hittedSquare.getX() - 1, hittedSquare.getY() - 1)){
                     return true;
                 }
             }
         }
         return false;
     }
-    private Boolean checkHitUpRight(int pawnNumber) throws Exception{
-        Coordinates pawnPosition=pawns[pawnNumber].position;
-        if(pawnPosition.x<6 && pawnPosition.y>1){
-            if(isSquareEngaged(pawnPosition.x+1, pawnPosition.y-1) && isOtherPlayer(board[pawnPosition.y-1][pawnPosition.x+1],pawnNumber)){
-                if(!isSquareEngaged(pawnPosition.x+2, pawnPosition.y-2)){
+    private Boolean checkHitUpRight(int pawnNumber, Coordinates hittedSquare, Boolean isItForCountHits, Vector<Integer> hittedPawns) throws Exception{
+        if(hittedSquare.getX() < 7 && hittedSquare.getY() > 0){
+            if(isSquareEngaged(hittedSquare) && isOtherPlayer(board[hittedSquare.getY()][hittedSquare.getX()],pawnNumber)){
+                if(isItForCountHits){
+                    if(hittedPawns.contains(getPawnNumber(hittedSquare.toInt())))
+                        return false;
+                    if(!isSquareEngaged(hittedSquare.getX() + 1 , hittedSquare.getY() - 1) || (board[hittedSquare.getY() - 1][hittedSquare.getX() + 1] == pawnNumber))
+                        return true;
+                    return false;
+                }
+                if(!isSquareEngaged(hittedSquare.getX() + 1, hittedSquare.getY() - 1)){
                     return true;
                 }
             }
         }
         return false;
     }
-    private Boolean checkHitDownLeft(int pawnNumber) throws Exception{
-        Coordinates pawnPosition=pawns[pawnNumber].position;
-        if(pawnPosition.x>1 && pawnPosition.y<6){
-            if(isSquareEngaged(pawnPosition.x-1, pawnPosition.y+1) && isOtherPlayer(board[pawnPosition.y+1][pawnPosition.x-1],pawnNumber)){
-                if(!isSquareEngaged(pawnPosition.x-2, pawnPosition.y+2)){
+    private Boolean checkHitDownLeft(int pawnNumber, Coordinates hittedSquare, Boolean isItForCountHits, Vector<Integer> hittedPawns) throws Exception{
+        if(hittedSquare.getX() > 0 && hittedSquare.getY() < 7){
+            if(isSquareEngaged(hittedSquare) && isOtherPlayer(board[hittedSquare.getY()][hittedSquare.getX()],pawnNumber)){
+                if(isItForCountHits){
+                    if(hittedPawns.contains(getPawnNumber(hittedSquare.toInt())))
+                        return false;
+                    if(!isSquareEngaged(hittedSquare.getX() - 1 , hittedSquare.getY() + 1) || (board[hittedSquare.getY() + 1][hittedSquare.getX() - 1] == pawnNumber))
+                        return true;
+                    return false;
+                }
+                if(!isSquareEngaged(hittedSquare.getX() - 1, hittedSquare.getY() + 1)){
                     return true;
                 }
             }
         }
         return false;
     }
-    private Boolean checkHitDownRight(int pawnNumber) throws Exception{
-        Coordinates pawnPosition=pawns[pawnNumber].position;
-        if(pawnPosition.x<6 && pawnPosition.y<6){
-            if(isSquareEngaged(pawnPosition.x+1, pawnPosition.y+1) && isOtherPlayer(board[pawnPosition.y+1][pawnPosition.x+1],pawnNumber)){
-                if(!isSquareEngaged(pawnPosition.x+2, pawnPosition.y+2)){
-                    return true;
+    private Boolean checkHitDownRight(int pawnNumber, Coordinates hittedSquare, Boolean isItForCountHits, Vector<Integer> hittedPawns) throws Exception{
+        if(hittedSquare.getX() < 7 && hittedSquare.getY() < 7){
+            if(isSquareEngaged(hittedSquare) && isOtherPlayer(board[hittedSquare.getY()][hittedSquare.getX()],pawnNumber)){
+                if(isItForCountHits){
+                    if(hittedPawns.contains(getPawnNumber(hittedSquare.toInt())))
+                        return false;
+                    if(!isSquareEngaged(hittedSquare.getX() + 1 , hittedSquare.getY() + 1)  || (board[hittedSquare.getY() + 1][hittedSquare.getX() + 1] == pawnNumber))
+                        return true;
+                    return false;
                 }
-            }
-        }
-        return false;
-    }
-
-    private Boolean checkHitUpLeft(int pawnNumber, Coordinates hittedSquare) throws Exception{
-        if(hittedSquare.x>0 && hittedSquare.y>0){
-            if(isSquareEngaged(hittedSquare.x, hittedSquare.y) && isOtherPlayer(board[hittedSquare.y][hittedSquare.x],pawnNumber)){
-                if(!isSquareEngaged(hittedSquare.x-1, hittedSquare.y-1)){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    private Boolean checkHitUpRight(int pawnNumber, Coordinates hittedSquare) throws Exception{
-        if(hittedSquare.x<7 && hittedSquare.y>0){
-            if(isSquareEngaged(hittedSquare.x, hittedSquare.y) && isOtherPlayer(board[hittedSquare.y][hittedSquare.x],pawnNumber)){
-                if(!isSquareEngaged(hittedSquare.x+1, hittedSquare.y-1)){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    private Boolean checkHitDownLeft(int pawnNumber, Coordinates hittedSquare) throws Exception{
-        if(hittedSquare.x>0 && hittedSquare.y<7){
-            if(isSquareEngaged(hittedSquare.x, hittedSquare.y) && isOtherPlayer(board[hittedSquare.y][hittedSquare.x],pawnNumber)){
-                if(!isSquareEngaged(hittedSquare.x-1, hittedSquare.y+1)){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    private Boolean checkHitDownRight(int pawnNumber, Coordinates hittedSquare) throws Exception{
-        if(hittedSquare.x<7 && hittedSquare.y<7){
-            if(isSquareEngaged(hittedSquare.x, hittedSquare.y) && isOtherPlayer(board[hittedSquare.y][hittedSquare.x],pawnNumber)){
-                if(!isSquareEngaged(hittedSquare.x+1, hittedSquare.y+1)){
+                if(!isSquareEngaged(hittedSquare.getX() + 1, hittedSquare.getY() + 1)){
                     return true;
                 }
             }
@@ -254,20 +378,6 @@ public class Chessboard{
         return false;
     }
 
-    private Boolean isSquareEngaged(int x,int y){
-        if(board[y][x]==-1)
-            return false;
-        return true;
-    }
-
-    private Boolean isSquareEngaged(Coordinates coordinates){
-        return isSquareEngaged(coordinates.x, coordinates.y );
-    }
-
-    public Boolean isSquareEngaged(int squareNumber) throws Exception{
-        return isSquareEngaged(new Coordinates(squareNumber));
-
-    }
 
     public Vector<Integer> possibleMoves(int x,int y) throws Exception{
         updatePossibleMoves(board[y][x]);
@@ -284,53 +394,62 @@ public class Chessboard{
         return possibleMoves(pawns[pawnNumber].position.x,pawns[pawnNumber].position.y);
     }
 
+    @Override
     void movePawnTo(int pawnNumber, Coordinates destination) throws Exception{
         hitsInLastMove = new Vector<>();
+
         Boolean isHitInMove=false;
         for( PawnPossibleMove possibleMove: pawns[pawnNumber].possibleMoves){
-            if(possibleMove.destination.equals(destination)) {
+            if(possibleMove.getX() == destination.getX() && possibleMove.getY() == destination.getY()){
                 isHitInMove = possibleMove.isHit;
-
                 break;
             }
         }
-        Coordinates source=pawns[pawnNumber].position;
+        Coordinates source=pawns[pawnNumber].getPosition();
 
         board[source.y][source.x]=-1;
         board[destination.y][destination.x]=pawnNumber;
         pawns[pawnNumber].setPosition(destination);
+        resetPossibleMoves();
         if(isHitInMove) {
             hit(source, destination);
-            if(!isQueen(pawnNumber) && (destination.y == 0 || destination.y == 7)){
-                setQueen(pawnNumber);
-                updatePossibleMoves();
+
+            updatePossibleMovesForContinuation(pawnNumber);
+
+            if(!isQueen(pawnNumber) && pawns[pawnNumber].getPossibleMoves().isEmpty()){
+                if(isPlayer1(pawnNumber)){
+                    if(destination.getY() == 0) {
+                        setAsQueen(pawnNumber);
+                    }
+                }
+                else{
+                    if(destination.getY() == 7){
+                        setAsQueen(pawnNumber);
+                    }
+                }
             }
-            else {
-                updatePossibleMovesForContinuation(pawnNumber);
-                if (pawns[pawnNumber].getPossibleMoves().isEmpty())
-                    updatePossibleMoves();
-            }
+
+
+
         }
         else{
             if(!isQueen(pawnNumber)){
                 if(isPlayer1(pawnNumber)){
                     if(destination.y == 0) {
-                        setQueen(pawnNumber);
+                        setAsQueen(pawnNumber);
                     }
                 }
                 else{
                     if(destination.y == 7){
-                        setQueen(pawnNumber);
+                        setAsQueen(pawnNumber);
                     }
                 }
             }
-            updatePossibleMoves();
         }
 
+        if (pawns[pawnNumber].getPossibleMoves().isEmpty())
+            updatePossibleMoves();
 
-
-
-//        return true;
 
     }
 
@@ -338,22 +457,25 @@ public class Chessboard{
         movePawnTo(getPawnNumber(sourceSquareNumber),new Coordinates(destinationSquareNumber));
     }
 
-    private void hit(Coordinates source, Coordinates destination) throws Exception{
-        if(destination.x < source.x){
-            if(destination.y < source.y)
-                hitUpLeft(source, destination);
-            else
-                hitDownLeft(source, destination);
-        }
-        else{
-            if(destination.y < source.y)
-                hitUpRight(source, destination);
-            else
-                hitDownRight(source, destination);
-        }
-    }
+//    private void hit(Coordinates source, Coordinates destination) throws Exception{
+//        if(destination.x < source.x){
+//            if(destination.y < source.y)
+//                hitUpLeft(source, destination);
+//            else
+//                hitDownLeft(source, destination);
+//        }
+//        else{
+//            if(destination.y < source.y)
+//                hitUpRight(source, destination);
+//            else
+//                hitDownRight(source, destination);
+//        }
+//    }
 
-    private void hitUpLeft(Coordinates source, Coordinates destination) throws Exception{
+
+
+    @Override
+    protected void hitUpLeft(Coordinates source, Coordinates destination) throws Exception{
         for(int x = source.x - 1, y = source.y - 1; x > destination.x; x--, y--){
             if(board[y][x] > -1){
                 pawns[board[y][x]].isPlaying = false;
@@ -362,7 +484,8 @@ public class Chessboard{
             }
         }
     }
-    private void hitUpRight(Coordinates source, Coordinates destination) throws Exception{
+    @Override
+    protected void hitUpRight(Coordinates source, Coordinates destination) throws Exception{
         for(int x = source.x + 1, y = source.y - 1; x < destination.x; x++, y--){
             if(board[y][x] > -1){
                 pawns[board[y][x]].isPlaying = false;
@@ -371,7 +494,8 @@ public class Chessboard{
             }
         }
     }
-    private void hitDownLeft(Coordinates source, Coordinates destination) throws Exception{
+    @Override
+    protected void hitDownLeft(Coordinates source, Coordinates destination) throws Exception{
         for(int x = source.x - 1, y = source.y + 1; x > destination.x; x--, y++){
             if(board[y][x] > -1){
                 pawns[board[y][x]].isPlaying = false;
@@ -380,7 +504,8 @@ public class Chessboard{
             }
         }
     }
-    private void hitDownRight(Coordinates source, Coordinates destination) throws Exception{
+    @Override
+    protected void hitDownRight(Coordinates source, Coordinates destination) throws Exception{
         for(int x = source.x + 1, y = source.y + 1; x < destination.x; x++, y++){
             if(board[y][x] > -1){
                 pawns[board[y][x]].isPlaying = false;
@@ -388,96 +513,6 @@ public class Chessboard{
                 hitsInLastMove.add(new Coordinates(x,y).toInt());
             }
         }
-    }
-
-    @Override
-    public String toString() {
-        String toReturn= new String();
-        for(int i=0;i<8;i++){
-            toReturn+=(Arrays.toString(board[i]) + "\n");
-        }
-        toReturn+="Pawns:";
-        for(int i=0;i<pawns.length;i++)
-            toReturn+="("+i+"="+pawns[i].position.toString()+")";
-        //toReturn+=Arrays.toString(pawns);
-        return toReturn;
-
-//		return "Chessboard [board=" + Arrays.toString(board) + "]";
-    }
-
-    Boolean isPlayer1(int pawnNumber)throws Exception{
-        if(pawnNumber<0 || pawnNumber>23)
-            throw new Exception("Bad pawn number!");
-        if(pawnNumber<12){
-            //	if(isPlayer1white)
-            return true;
-            //		else
-            //		return false;
-        }
-        else{
-            //		if(isPlayer1white)
-            return false;
-//			else
-//				return true;
-        }
-    }
-    Boolean isPlayer2(int pawnNumber) throws Exception{
-        return !isPlayer1(pawnNumber);
-    }
-    Boolean isOtherPlayer(int pawnNumber1,int pawnNumber2)throws Exception{
-        if(isPlayer1(pawnNumber1)){
-            if(isPlayer2(pawnNumber2))
-                return true;
-            return false;
-        }
-        else{
-            if(isPlayer1(pawnNumber2))
-                return true;
-            return false;
-        }
-
-    }
-
-    public Boolean isPawnWhite(int pawnNumber) throws Exception{
-        if(isPlayer1white){
-            if(isPlayer1(pawnNumber))
-                return true;
-            return false;
-        }
-
-        if(isPlayer1(pawnNumber))
-            return false;
-        return true;
-    }
-
-
-    Boolean isActivePlayersPawn(int pawnNumber) throws Exception{
-        if(isPlayer1(pawnNumber)){
-            if(activePlayer==1)
-                return true;
-            return false;
-        }
-        if(activePlayer==2)
-            return true;
-        return false;
-    }
-
-    Boolean isQueen(int pawnNumber){
-        return pawns[pawnNumber].isQueen;
-    }
-
-    void setQueen(int pawnNumber){
-        pawns[pawnNumber].setAsQuuen();
-    }
-
-    public int getPawnNumber(int squareNumber) throws Exception{
-        Coordinates squarePosition = new Coordinates(squareNumber);
-
-        return board[squarePosition.y][squarePosition.x];
-    }
-
-    public Pawn getPawn(int pawnNumber) throws Exception {
-        return pawns[pawnNumber];
     }
 
     public Vector<Integer> getHitsInLastMove() {

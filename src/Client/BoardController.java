@@ -2,9 +2,7 @@ package Client;
 
 import GameLogic.Chessboard;
 import GameLogic.Pawn;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -26,13 +24,13 @@ public class BoardController {
     private GridPane boardVisual;
 
     @FXML
-    Rectangle square0, square1, square2, square3, square4, square5, square6, square7, square8, square9, square10, square11, square12, square13, square14, square15, square16, square17, square18, square19, square20;
+    Pane square0, square1, square2, square3, square4, square5, square6, square7, square8, square9, square10, square11, square12, square13, square14, square15, square16, square17, square18, square19, square20;
     @FXML
-    Rectangle square21, square22, square23, square24, square25, square26, square27, square28, square29, square30, square31, square32, square33, square34, square35, square36, square37, square38, square39, square40;
+    Pane square21, square22, square23, square24, square25, square26, square27, square28, square29, square30, square31, square32, square33, square34, square35, square36, square37, square38, square39, square40;
     @FXML
-    Rectangle square41, square42, square43, square44, square45, square46, square47, square48, square49, square50, square51, square52, square53, square54, square55, square56, square57, square58, square59, square60, square61, square62, square63;
+    Pane square41, square42, square43, square44, square45, square46, square47, square48, square49, square50, square51, square52, square53, square54, square55, square56, square57, square58, square59, square60, square61, square62, square63;
 
-    private Map<Integer, Rectangle> squaresMap;
+    private Map<Integer, Pane> squaresMap;
     private Vector<Integer> possibleMoves;
     private Integer lastClicked;
 
@@ -44,11 +42,9 @@ public class BoardController {
     private ConnectionController connectionController;
 
     public BoardController() throws Exception{
-        board=new Chessboard(true);
-//        pawnsVisual=new Circle[24];
-        this.isPlayer1White=true;
+
         squaresMap = new HashMap<>();
-        possibleMoves=new Vector<Integer>();
+        possibleMoves = new Vector<>();
 //        for(int i=0;i<12;i++){
 //            pawnsVisual[i] = new Circle(22, Color.WHITE);
 //            pawnsVisual[i].setCenterX(27);
@@ -82,19 +78,24 @@ public class BoardController {
     }
 
     public void initBoard(String ipAddress, String portNumber) throws Exception{
-        initSquaresMap();
-        int colorInfluence = isPlayer1White?0:12;
-        if(isPlayer1White){
-            for(int i=0+colorInfluence;i<12+colorInfluence;i++){
-                putPawnOnSquare(board.getPawn(i).getPosition().toInt(),Color.WHITE);
-            }
-            for(int i=12-colorInfluence;i<24-colorInfluence;i++){
-                putPawnOnSquare(board.getPawn(i).getPosition().toInt(),Color.BLACK);
-            }
-        }
 
         connectionController = new ConnectionController(ipAddress,portNumber);
-//        board.updatePossibleMoves();
+        String color = connectionController.readMessage();
+
+        initSquaresMap();
+        isPlayer1White = color.equals("1");
+        board=new Chessboard(isPlayer1White);
+        board.updatePossibleMoves();
+
+        int colorInfluence = isPlayer1White ? 0 : 12;
+
+        for(int i=0 + colorInfluence;i<12 + colorInfluence;i++){
+            putPawnOnSquare(board.getPawn(i).getPosition().toInt(),Color.WHITE);
+        }
+        for(int i=12-colorInfluence;i<24-colorInfluence;i++){
+            putPawnOnSquare(board.getPawn(i).getPosition().toInt(),Color.BLACK);
+        }
+
     }
 
     public void setPlayer1Name(String player1Name) {
@@ -112,7 +113,7 @@ public class BoardController {
     @FXML
     public void onSquareClicked(MouseEvent event ) {
 
-        int squareNumber = Integer.parseInt(((Shape)event.getSource()).getId().substring(6));
+        int squareNumber = Integer.parseInt(((Pane)event.getSource()).getId().substring(6));
 
         try{
 //            connectionController.sendMessage(squareNumber + " -> " + board.getPawnNumber(squareNumber));
@@ -126,23 +127,23 @@ public class BoardController {
                 possibleMoves = pawn.getPossibleMovesAssIntegers();
                 for(Integer number:possibleMoves){
                     Circle possibleMoveMarker = new Circle(27, 27,15, Color.BLUE);
-                    ((Pane)squaresMap.get(number).getParent()).getChildren().add( possibleMoveMarker );
-                    possibleMoveMarker.setOnMouseClicked( e -> {
-                        onSquareClicked( e.copyFor(((Pane)((Circle)e.getSource()).getParent()).getChildren().get(0),e.getTarget()));
-                    });
-                    possibleMoveMarker.setOnMouseEntered( e -> {
-                        onSquareEntered( e.copyFor(((Pane)((Circle)e.getSource()).getParent()).getChildren().get(0),e.getTarget()));
-                    });
-                    possibleMoveMarker.setOnMouseExited( e -> {
-                        onSquareExited( e.copyFor(((Pane)((Circle)e.getSource()).getParent()).getChildren().get(0),e.getTarget()));
-                    });
+                    squaresMap.get(number).getChildren().add( possibleMoveMarker );
+//                    possibleMoveMarker.setOnMouseClicked( e -> {
+//                        onSquareClicked( e.copyFor(((Pane)((Circle)e.getSource()).getParent()).getChildren().get(0),e.getTarget()));
+//                    });
+//                    possibleMoveMarker.setOnMouseEntered( e -> {
+//                        onSquareEntered( e.copyFor(((Pane)((Circle)e.getSource()).getParent()).getChildren().get(0),e.getTarget()));
+//                    });
+//                    possibleMoveMarker.setOnMouseExited( e -> {
+//                        onSquareExited( e.copyFor(((Pane)((Circle)e.getSource()).getParent()).getChildren().get(0),e.getTarget()));
+//                    });
                 }
             }
             else if(possibleMoves.contains(squareNumber)) {
                 /*
                 * In this case move is executed
                  */
-                connectionController.sendMessage("move: " + lastClicked + "to: " + squareNumber);
+                connectionController.sendMessage(board.getPawnNumber(lastClicked) + ": " + lastClicked + " to: " + squareNumber);
                 int movedPawnNumber = board.getPawnNumber(lastClicked);
 
                 Color movedPawnColor = board.isPawnWhite(movedPawnNumber) ? Color.WHITE : Color.BLACK;
@@ -151,14 +152,14 @@ public class BoardController {
 
                 Vector<Integer> squaresToClean = board.getHitsInLastMove();
                 for (Integer squareToClean : squaresToClean) {
-                    ((Pane) squaresMap.get(squareToClean).getParent()).getChildren().remove(1);
+                    squaresMap.get(squareToClean).getChildren().remove(1);
                 }
 
-                ((Pane) squaresMap.get(lastClicked).getParent()).getChildren().remove(1);
+                squaresMap.get(lastClicked).getChildren().remove(1);
 
                 resetClicks();
                 putPawnOnSquare(squareNumber, movedPawnColor);
-
+                addHighlightToSquare(squareNumber);
 
             }
             else{
@@ -178,11 +179,10 @@ public class BoardController {
 
     @FXML
     public void onSquareEntered(MouseEvent event ){
-        int squareNumber = Integer.parseInt(((Shape)event.getSource()).getId().substring(6));
+        int squareNumber = Integer.parseInt(((Pane)event.getSource()).getId().substring(6));
         try {
             if (board.isSquareEngaged(squareNumber)) {
-                Circle highlight = new Circle(27,27,25, Color.GREEN);
-                ((Pane)((Shape) event.getSource()).getParent()).getChildren().add(1, highlight);
+                addHighlightToSquare(squareNumber);
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -192,11 +192,10 @@ public class BoardController {
 
     @FXML
     public void onSquareExited(MouseEvent event ){
-        int squareNumber = Integer.parseInt(((Shape)event.getSource()).getId().substring(6));
+        int squareNumber = Integer.parseInt(((Pane)event.getSource()).getId().substring(6));
         try {
             if (board.isSquareEngaged(squareNumber)) {
-                if(((Pane)((Shape) event.getSource()).getParent()).getChildren().size()>2)
-                    ((Pane)((Shape) event.getSource()).getParent()).getChildren().remove(1);
+                removeHighlightFromSquare(squareNumber);
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -214,7 +213,7 @@ public class BoardController {
 
     private void resetClicks(){
         for (Integer number : possibleMoves) {
-            ((Pane) squaresMap.get(number).getParent()).getChildren().remove(1);
+            squaresMap.get(number).getChildren().remove(1);
         }
         possibleMoves = new Vector<>();
         lastClicked = null;
@@ -222,16 +221,26 @@ public class BoardController {
 
     void putPawnOnSquare(int squareNumber, Color pawnColor){
         Circle pawnVisual = new Circle(27, 27,22, pawnColor);
-        pawnVisual.setOnMouseClicked( e -> {
-            onSquareClicked( e.copyFor(((Pane)((Circle)e.getSource()).getParent()).getChildren().get(0),e.getTarget()));
-        });
-        pawnVisual.setOnMouseEntered( e -> {
-            onSquareEntered( e.copyFor(((Pane)((Circle)e.getSource()).getParent()).getChildren().get(0),e.getTarget()));
-        });
-        pawnVisual.setOnMouseExited( e -> {
-            onSquareExited( e.copyFor(((Pane)((Circle)e.getSource()).getParent()).getChildren().get(0),e.getTarget()));
-        });
-        ((Pane)squaresMap.get(squareNumber).getParent()).getChildren().add( pawnVisual);
+//        pawnVisual.setOnMouseClicked( e -> {
+//            onSquareClicked( e.copyFor(((Pane)((Circle)e.getSource()).getParent()).getChildren().get(0),e.getTarget()));
+//        });
+//        pawnVisual.setOnMouseEntered( e -> {
+//            onSquareEntered( e.copyFor(((Pane)((Circle)e.getSource()).getParent()).getChildren().get(0),e.getTarget()));
+//        });
+//        pawnVisual.setOnMouseExited( e -> {
+//            onSquareExited( e.copyFor(((Pane)((Circle)e.getSource()).getParent()).getChildren().get(0),e.getTarget()));
+//        });
+        squaresMap.get(squareNumber).getChildren().add( pawnVisual);
+    }
+
+    void addHighlightToSquare(int squareNumber){
+        Circle highlight = new Circle(27,27,25, Color.GREEN);
+        squaresMap.get(squareNumber).getChildren().add(1, highlight);
+    }
+
+    void removeHighlightFromSquare(int squareNumber){
+        if(squaresMap.get(squareNumber).getChildren().size() > 2)
+            squaresMap.get(squareNumber).getChildren().remove(1);
     }
 
     void initSquaresMap(){
