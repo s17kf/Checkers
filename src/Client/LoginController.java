@@ -48,18 +48,18 @@ public class LoginController {
     public void onJoinClick(ActionEvent event ) throws Exception {
         System.out.println("Button2 clicked "+name2.getText());
 
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("Chessboard.fxml"));
-//        Parent root = loader.load();
-//        BoardController controller = loader.getController();
-//        controller.initBoard();
-//
-//        Scene boardScene = new Scene(root);
-//        Stage boardStage = (Stage)((Node) event.getSource()).getScene().getWindow();
-//        boardStage.setScene(boardScene);
-//
-//
-//
-//        boardStage.show();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Chessboard.fxml"));
+        Parent root = loader.load();
+        BoardController controller = loader.getController();
+        controller.initBoard(addressIP.getText(),port2.getText());
+
+        Scene boardScene = new Scene(root);
+        Stage boardStage = (Stage)((Node) event.getSource()).getScene().getWindow();
+        boardStage.setScene(boardScene);
+
+
+
+        boardStage.show();
     }
 
 
