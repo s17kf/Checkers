@@ -1,6 +1,7 @@
 package Server;
 
 import GameLogic.Chessboard;
+import GameLogic.PrimitiveChessboard;
 
 import java.io.*;
 import java.net.*;
@@ -14,7 +15,7 @@ public class Server implements Runnable {
 
     private ServerSocket serverSocket;
     Socket players[];
-    Chessboard board;
+    PrimitiveChessboard board;
 
     public Server(int port) throws Exception {
 
@@ -23,7 +24,7 @@ public class Server implements Runnable {
 
         players = new Socket[2];
 
-        board = new Chessboard(true);
+        board = new PrimitiveChessboard(true);
 
         System.out.println("Server started");
     }
@@ -31,10 +32,11 @@ public class Server implements Runnable {
     @Override
     public void run() {
 
-
-
         try {
             players[0] = serverSocket.accept();
+            System.out.println("player1 connected, address: " + players[0].getRemoteSocketAddress());
+            players[1] = serverSocket.accept();
+            System.out.println("player2 connected, address: " + players[1].getRemoteSocketAddress());
         }catch(SocketTimeoutException e){
             System.out.println("Waiting time reached");
             return;
@@ -44,11 +46,14 @@ public class Server implements Runnable {
             return;
         }
 
-        System.out.println("player1 address: " + players[0].getRemoteSocketAddress());
+
 
         try {
-            DataOutputStream out = new DataOutputStream(players[0].getOutputStream());
-            out.writeUTF("2");
+            DataOutputStream out[] = new DataOutputStream[2];
+            for(int i = 0;i < 2 ; i++)
+                out[i]= new DataOutputStream(players[0].getOutputStream());
+            out[0].writeUTF("2");
+            out[2].writeUTF("1");
         }catch (IOException e){
             e.printStackTrace();
         }
