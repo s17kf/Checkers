@@ -1,7 +1,12 @@
 package Client;
 
 import GameLogic.Chessboard;
+import GameLogic.Coordinates;
+import GameLogic.MoveParameters;
 import GameLogic.Pawn;
+import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -40,41 +45,17 @@ public class BoardController {
     private String player1Name, player2Name;
     private Chessboard board;
     private ConnectionController connectionController;
+    private int activePlayer;
+    Thread incomingMessagesReader;
+//    private BooleanProperty opponentMovesToDo;
+    private MoveParameters opponentMove;
+    private Platform platform;
 
-    public BoardController() throws Exception{
+
+    public BoardController(){
 
         squaresMap = new HashMap<>();
         possibleMoves = new Vector<>();
-//        for(int i=0;i<12;i++){
-//            pawnsVisual[i] = new Circle(22, Color.WHITE);
-//            pawnsVisual[i].setCenterX(27);
-//            pawnsVisual[i].setCenterY(27);
-//
-//            pawnsVisual[i].setOnMouseClicked( e -> {
-//                onSquareClicked( e.copyFor(((Pane)((Circle)e.getSource()).getParent()).getChildren().get(0),e.getTarget()));
-//            });
-//            pawnsVisual[i].setOnMouseEntered( e -> {
-//                onSquareEntered( e.copyFor(((Pane)((Circle)e.getSource()).getParent()).getChildren().get(0),e.getTarget()));
-//            });
-//            pawnsVisual[i].setOnMouseExited( e -> {
-//                onSquareExited( e.copyFor(((Pane)((Circle)e.getSource()).getParent()).getChildren().get(0),e.getTarget()));
-//            });
-//        }
-//        for(int i=12;i<24;i++){
-//            pawnsVisual[i] = new Circle(22, Color.BLACK);
-//            pawnsVisual[i].setCenterX(27);
-//            pawnsVisual[i].setCenterY(27);
-//
-//            pawnsVisual[i].setOnMouseClicked( e -> {
-//                onSquareClicked( e.copyFor(((Pane)((Circle)e.getSource()).getParent()).getChildren().get(0),e.getTarget()));
-//            });
-//            pawnsVisual[i].setOnMouseEntered( e -> {
-//                onSquareEntered( e.copyFor(((Pane)((Circle)e.getSource()).getParent()).getChildren().get(0),e.getTarget()));
-//            });
-//            pawnsVisual[i].setOnMouseExited( e -> {
-//                onSquareExited( e.copyFor(((Pane)((Circle)e.getSource()).getParent()).getChildren().get(0),e.getTarget()));
-//            });
-//        }
     }
 
     public void initBoard(String ipAddress, String portNumber) throws Exception{
@@ -84,8 +65,21 @@ public class BoardController {
 
         initSquaresMap();
         isPlayer1White = color.equals("1");
+        activePlayer = 1;
         board=new Chessboard(isPlayer1White);
+        board.setActivePlayer(Integer.parseInt(color));
         board.updatePossibleMoves();
+//        opponentMove = new MoveParameters();
+
+//        opponentMovesToDo = new SimpleBooleanProperty(false);
+//        opponentMovesToDo.addListener(e -> {
+//            if(opponentMovesToDo.getValue().equals(true)){
+//                realizeOtherPlayerMove(opponentMove.getMovedPawnNumber(), opponentMove.getMoveDestination());
+//                opponentMovesToDo.set(false);
+//            }
+//
+//        });
+
 
         int colorInfluence = isPlayer1White ? 0 : 12;
 
@@ -95,6 +89,15 @@ public class BoardController {
         for(int i=12-colorInfluence;i<24-colorInfluence;i++){
             putPawnOnSquare(board.getPawn(i).getPosition().toInt(),Color.BLACK);
         }
+//        incomingMessagesReader = new Thread(this);
+//        incomingMessagesReader.start();
+
+        platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                waitForIncomingMessage();
+            }
+        });
 
     }
 
@@ -113,16 +116,18 @@ public class BoardController {
     @FXML
     public void onSquareClicked(MouseEvent event ) {
 
+        if (activePlayer != board.getActivePlayer()) {
+            return;
+        }
+
         int squareNumber = Integer.parseInt(((Pane)event.getSource()).getId().substring(6));
 
         try{
-//            connectionController.sendMessage(squareNumber + " -> " + board.getPawnNumber(squareNumber));
-
-
 
             if (board.isSquareEngaged(squareNumber)) {
                 resetClicks();
                 lastClicked = squareNumber;
+                board.updatePossibleMoves();
                 Pawn pawn = board.getPawn(board.getPawnNumber(squareNumber));
                 possibleMoves = pawn.getPossibleMovesAssIntegers();
                 for(Integer number:possibleMoves){
@@ -143,23 +148,42 @@ public class BoardController {
                 /*
                 * In this case move is executed
                  */
-                connectionController.sendMessage(board.getPawnNumber(lastClicked) + ": " + lastClicked + " to: " + squareNumber);
                 int movedPawnNumber = board.getPawnNumber(lastClicked);
 
                 Color movedPawnColor = board.isPawnWhite(movedPawnNumber) ? Color.WHITE : Color.BLACK;
 
                 board.moveFromSquareToSquare(lastClicked, squareNumber);
 
+                squaresMap.get(lastClicked).getChildren().remove(1);
+                resetClicks();
+                possibleMoves = board.getPawn(movedPawnNumber).getPossibleMovesAssIntegers();
+
+                Boolean isHitContinuation = !possibleMoves.isEmpty();
+
+                connectionController.sendMessage(new MoveParameters(movedPawnNumber, squareNumber, isHitContinuation).toString());
+
+                if(!isHitContinuation) {
+//                    changeActivePlayer();
+                    board.changePlayer();
+                    platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            waitForIncomingMessage();
+                        }
+                    });
+
+                }
+
+
                 Vector<Integer> squaresToClean = board.getHitsInLastMove();
                 for (Integer squareToClean : squaresToClean) {
                     squaresMap.get(squareToClean).getChildren().remove(1);
                 }
 
-                squaresMap.get(lastClicked).getChildren().remove(1);
 
-                resetClicks();
+
                 putPawnOnSquare(squareNumber, movedPawnColor);
-                addHighlightToSquare(squareNumber);
+//                addHighlightToSquare(squareNumber);
 
             }
             else{
@@ -205,7 +229,8 @@ public class BoardController {
     @FXML
     public void onEndButtonAction(ActionEvent event){
         try {
-            connectionController.sendMessage("end connection");
+            connectionController.sendMessage("disconnecting");
+            incomingMessagesReader = null;
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -213,7 +238,8 @@ public class BoardController {
 
     private void resetClicks(){
         for (Integer number : possibleMoves) {
-            squaresMap.get(number).getChildren().remove(1);
+            if(squaresMap.get(number).getChildren().size()>1)
+                squaresMap.get(number).getChildren().remove(1);
         }
         possibleMoves = new Vector<>();
         lastClicked = null;
@@ -309,4 +335,70 @@ public class BoardController {
         squaresMap.put(62, square62);
         squaresMap.put(63, square63);
     }
+
+    void realizeOtherPlayerMove(int movedPawnNumber, int destination){
+
+        try{
+
+            Color movedPawnColor = board.isPawnWhite(movedPawnNumber) ? Color.WHITE : Color.BLACK;
+            int sourceSquare = board.getPawnPosition(movedPawnNumber);
+            board.movePawnTo(movedPawnNumber, new Coordinates(destination));
+
+            Vector<Integer> squaresToClean = board.getHitsInLastMove();
+            for (Integer squareToClean : squaresToClean) {
+                squaresMap.get(squareToClean).getChildren().remove(1);
+            }
+
+            squaresMap.get(sourceSquare).getChildren().remove(1);
+
+            putPawnOnSquare(destination, movedPawnColor);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    void waitForIncomingMessage(){
+        try {
+            String receivedMessage;
+            if (activePlayer != board.getActivePlayer()) {
+                receivedMessage = connectionController.readMessage();
+
+                if (receivedMessage.equals("disconnected")) {
+                    System.out.println("Other player has disconnected");
+                    return;
+                }
+                if(receivedMessage.equals("endOfGame")){
+                    MoveParameters moveParameters = new MoveParameters(1,connectionController.readMessage());
+                    realizeOtherPlayerMove(moveParameters.getMovedPawnNumber(), moveParameters.getMoveDestination());
+//                                opponentMove = new MoveParameters(1, receivedMessage);
+//                                opponentMovesToDo.set(true);
+                    System.out.println("Game over");
+                    return;
+                }
+                MoveParameters moveParameters = new MoveParameters(1, receivedMessage);
+                realizeOtherPlayerMove(moveParameters.getMovedPawnNumber(), moveParameters.getMoveDestination());
+//                            opponentMove = new MoveParameters(1, receivedMessage);
+//                            opponentMovesToDo.set(true);
+                if(!moveParameters.getHitContinuation()){
+                    board.changePlayer();
+                    return;
+                }
+            }
+            else{
+                return;
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public void changeActivePlayer(){
+        activePlayer = activePlayer % 2 + 1;
+    }
 }
+

@@ -8,7 +8,7 @@ import java.net.Socket;
 /**
  * Created by Stefan on 2017-05-22.
  */
-public class ConnectionController {
+public class ConnectionController implements Runnable{
 
     Socket server;
 
@@ -34,7 +34,21 @@ public class ConnectionController {
         return in.readUTF();
     }
 
+    @Override
+    public void run() {
+        String readedMessage;
+        while(true){
+            try{
+                readedMessage = readMessage();
 
+                if(readedMessage.equals("end")){
 
+                    break;
+                }
 
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
 }

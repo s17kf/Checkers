@@ -4,6 +4,8 @@ package GameLogic;
  * Created by Stefan on 2017-05-19.
  */
 
+import com.sun.javafx.embed.EmbeddedSceneDSInterface;
+
 import java.util.Vector;
 
 
@@ -395,7 +397,7 @@ public class Chessboard extends PrimitiveChessboard{
     }
 
     @Override
-    void movePawnTo(int pawnNumber, Coordinates destination) throws Exception{
+    public void movePawnTo(int pawnNumber, Coordinates destination) throws Exception{
         hitsInLastMove = new Vector<>();
 
         Boolean isHitInMove=false;
@@ -446,9 +448,6 @@ public class Chessboard extends PrimitiveChessboard{
                 }
             }
         }
-
-        if (pawns[pawnNumber].getPossibleMoves().isEmpty())
-            updatePossibleMoves();
 
 
     }
@@ -517,5 +516,9 @@ public class Chessboard extends PrimitiveChessboard{
 
     public Vector<Integer> getHitsInLastMove() {
         return hitsInLastMove;
+    }
+
+    public int getPawnPosition(int pawnNumber) throws Exception{
+        return getPawn(pawnNumber).getPosition().toInt();
     }
 }

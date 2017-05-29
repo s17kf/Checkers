@@ -300,7 +300,7 @@ public class PrimitiveChessboard {
 
     }
 
-    void movePawnTo(int pawnNumber, Coordinates destination) throws Exception{
+    public void movePawnTo(int pawnNumber, Coordinates destination) throws Exception{
         Boolean isHitInMove=false;
         for( PawnPossibleMove possibleMove: pawns[pawnNumber].possibleMoves){
             if(possibleMove.getX() == destination.getX() && possibleMove.getY() == destination.getY()){
@@ -404,9 +404,9 @@ public class PrimitiveChessboard {
         for(int i=0;i<8;i++){
             toReturn+=(Arrays.toString(board[i]) + "\n");
         }
-        toReturn+="Pawns:";
-        for(int i=0;i<pawns.length;i++)
-            toReturn+="("+i+"="+pawns[i].position.toString()+")";
+//        toReturn+="Pawns:";
+//        for(int i=0;i<pawns.length;i++)
+//            toReturn+="("+i+"="+pawns[i].position.toString()+")";
         //toReturn+=Arrays.toString(pawns);
         return toReturn;
 
@@ -488,5 +488,11 @@ public class PrimitiveChessboard {
         return pawns[pawnNumber];
     }
 
+    public int getActivePlayer() {
+        return activePlayer;
+    }
 
+    public void setActivePlayer(int activePlayer) {
+        this.activePlayer = activePlayer;
+    }
 }
