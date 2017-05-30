@@ -45,8 +45,8 @@ public class PrimitiveChessboard {
     }
 
     public Boolean changePlayer() throws Exception{
-        int activePlayerShift = activePlayer == 1 ? 0 : 12;
         activePlayer = activePlayer%2 + 1;
+        int activePlayerShift = activePlayer == 1 ? 0 : 12;
         updatePossibleMoves();
         for(int i = 0 + activePlayerShift; i < 12 + activePlayerShift; i++) {
             if(pawns[i].isPlaying && !pawns[i].getPossibleMoves().isEmpty())
@@ -314,6 +314,12 @@ public class PrimitiveChessboard {
         board[destination.y][destination.x]=pawnNumber;
         pawns[pawnNumber].setPosition(destination);
         resetPossibleMoves();
+
+        realizeHitsAndSetQueens(isHitInMove, source, destination, pawnNumber);
+
+    }
+
+    protected void realizeHitsAndSetQueens(Boolean isHitInMove, Coordinates source, Coordinates destination, int pawnNumber) throws Exception{
         if(isHitInMove) {
             hit(source, destination);
 
@@ -347,7 +353,6 @@ public class PrimitiveChessboard {
                 }
             }
         }
-
     }
 
     protected void hit(Coordinates source, Coordinates destination) throws Exception{

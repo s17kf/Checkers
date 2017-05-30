@@ -413,41 +413,8 @@ public class Chessboard extends PrimitiveChessboard{
         board[destination.y][destination.x]=pawnNumber;
         pawns[pawnNumber].setPosition(destination);
         resetPossibleMoves();
-        if(isHitInMove) {
-            hit(source, destination);
 
-            updatePossibleMovesForContinuation(pawnNumber);
-
-            if(!isQueen(pawnNumber) && pawns[pawnNumber].getPossibleMoves().isEmpty()){
-                if(isPlayer1(pawnNumber)){
-                    if(destination.getY() == 0) {
-                        setAsQueen(pawnNumber);
-                    }
-                }
-                else{
-                    if(destination.getY() == 7){
-                        setAsQueen(pawnNumber);
-                    }
-                }
-            }
-
-
-
-        }
-        else{
-            if(!isQueen(pawnNumber)){
-                if(isPlayer1(pawnNumber)){
-                    if(destination.y == 0) {
-                        setAsQueen(pawnNumber);
-                    }
-                }
-                else{
-                    if(destination.y == 7){
-                        setAsQueen(pawnNumber);
-                    }
-                }
-            }
-        }
+        realizeHitsAndSetQueens(isHitInMove, source, destination, pawnNumber);
 
 
     }

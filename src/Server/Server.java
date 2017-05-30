@@ -86,16 +86,18 @@ public class Server implements Runnable {
 
                 System.out.println("decoded: " + moveParameters);
                 board.movePawnTo(moveParameters.getMovedPawnNumber(),new Coordinates(moveParameters.getMoveDestination()));
-                System.out.println(board);
+//                System.out.println(board);
+                if(activePlayer == 1)
+                    moveParameters.playerChange();
                 if(moveParameters.getHitContinuation()){
-                    if(activePlayer == 1)
-                        moveParameters.playerChange();
+                    changeActivePlayer();
                     DataOutputStream out = new DataOutputStream(players[activePlayer-1].getOutputStream());
+                    System.out.println("sent to: " + activePlayer);
                     out.writeUTF(moveParameters.toString());
-
+                    changeActivePlayer();
                 }
                 else {
-                    Boolean isGameEnded = board.changePlayer();
+                    Boolean isGameEnded = !board.changePlayer();
 
                     if(isGameEnded){
                         DataOutputStream out = new DataOutputStream(players[activePlayer-1].getOutputStream());
@@ -109,9 +111,9 @@ public class Server implements Runnable {
 
 //                    changeActivePlayer(activePlayer);
                     activePlayer=board.getActivePlayer();
-                    if(activePlayer == 2){
-                        moveParameters.playerChange();
-                    }
+//                    if(activePlayer == 2){
+//                        moveParameters.playerChange();
+//                    }
                     DataOutputStream out = new DataOutputStream(players[activePlayer-1].getOutputStream());
                     out.writeUTF(moveParameters.toString());
                 }

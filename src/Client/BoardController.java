@@ -48,8 +48,8 @@ public class BoardController {
     private int activePlayer;
     Thread incomingMessagesReader;
 //    private BooleanProperty opponentMovesToDo;
-    private MoveParameters opponentMove;
-    private Platform platform;
+//    private MoveParameters opponentMove;
+//    private Platform platform;
 
 
     public BoardController(){
@@ -68,7 +68,7 @@ public class BoardController {
         activePlayer = 1;
         board=new Chessboard(isPlayer1White);
         board.setActivePlayer(Integer.parseInt(color));
-        board.updatePossibleMoves();
+//        board.updatePossibleMoves();
 //        opponentMove = new MoveParameters();
 
 //        opponentMovesToDo = new SimpleBooleanProperty(false);
@@ -92,12 +92,14 @@ public class BoardController {
 //        incomingMessagesReader = new Thread(this);
 //        incomingMessagesReader.start();
 
-        platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                waitForIncomingMessage();
-            }
-        });
+        if(activePlayer != board.getActivePlayer()) {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    waitForIncomingMessage();
+                }
+            });
+        }
 
     }
 
@@ -112,6 +114,7 @@ public class BoardController {
     public Chessboard getBoard() {
         return board;
     }
+
 
     @FXML
     public void onSquareClicked(MouseEvent event ) {
@@ -133,15 +136,6 @@ public class BoardController {
                 for(Integer number:possibleMoves){
                     Circle possibleMoveMarker = new Circle(27, 27,15, Color.BLUE);
                     squaresMap.get(number).getChildren().add( possibleMoveMarker );
-//                    possibleMoveMarker.setOnMouseClicked( e -> {
-//                        onSquareClicked( e.copyFor(((Pane)((Circle)e.getSource()).getParent()).getChildren().get(0),e.getTarget()));
-//                    });
-//                    possibleMoveMarker.setOnMouseEntered( e -> {
-//                        onSquareEntered( e.copyFor(((Pane)((Circle)e.getSource()).getParent()).getChildren().get(0),e.getTarget()));
-//                    });
-//                    possibleMoveMarker.setOnMouseExited( e -> {
-//                        onSquareExited( e.copyFor(((Pane)((Circle)e.getSource()).getParent()).getChildren().get(0),e.getTarget()));
-//                    });
                 }
             }
             else if(possibleMoves.contains(squareNumber)) {
@@ -165,7 +159,7 @@ public class BoardController {
                 if(!isHitContinuation) {
 //                    changeActivePlayer();
                     board.changePlayer();
-                    platform.runLater(new Runnable() {
+                    Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
                             waitForIncomingMessage();
@@ -346,6 +340,7 @@ public class BoardController {
 
             Vector<Integer> squaresToClean = board.getHitsInLastMove();
             for (Integer squareToClean : squaresToClean) {
+                System.out.println("Deleting pawn on " + squareToClean);
                 squaresMap.get(squareToClean).getChildren().remove(1);
             }
 
@@ -365,13 +360,13 @@ public class BoardController {
             if (activePlayer != board.getActivePlayer()) {
                 receivedMessage = connectionController.readMessage();
 
+                System.out.println("Client received: " + receivedMessage);
+
                 if (receivedMessage.equals("disconnected")) {
                     System.out.println("Other player has disconnected");
                     return;
                 }
                 if(receivedMessage.equals("endOfGame")){
-                    MoveParameters moveParameters = new MoveParameters(1,connectionController.readMessage());
-                    realizeOtherPlayerMove(moveParameters.getMovedPawnNumber(), moveParameters.getMoveDestination());
 //                                opponentMove = new MoveParameters(1, receivedMessage);
 //                                opponentMovesToDo.set(true);
                     System.out.println("Game over");
@@ -383,10 +378,12 @@ public class BoardController {
 //                            opponentMovesToDo.set(true);
                 if(!moveParameters.getHitContinuation()){
                     board.changePlayer();
-                    return;
                 }
+
+
             }
             else{
+                System.out.println("Coś nie tak");
                 return;
             }
 
