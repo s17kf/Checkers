@@ -475,7 +475,7 @@ public class PrimitiveChessboard {
         return false;
     }
 
-    Boolean isQueen(int pawnNumber){
+    public Boolean isQueen(int pawnNumber){
         return pawns[pawnNumber].isQueen;
     }
 

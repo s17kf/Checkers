@@ -107,6 +107,9 @@ public class Server implements Runnable {
                         out.writeUTF("endOfGame");
                         out.writeUTF(moveParameters.toString());
                         break;
+    /*
+    * TODO trzeba opracowac zakonczenie gry do jednego z graczy wyslac pakiet o ruchu przeciwnika
+     */
                     }
 
 //                    changeActivePlayer(activePlayer);
