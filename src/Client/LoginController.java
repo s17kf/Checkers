@@ -51,7 +51,7 @@ public class LoginController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Chessboard.fxml"));
         Parent root = loader.load();
         BoardController controller = loader.getController();
-        controller.initBoard(/*addressIP.getText(),port2.getText()*/"192.168.1.5", "4455");
+        controller.initBoard(addressIP.getText()/*,port2.getText()*//*"192.168.1.2"*/, "4455");
 
         Scene boardScene = new Scene(root);
         Stage boardStage = (Stage)((Node) event.getSource()).getScene().getWindow();

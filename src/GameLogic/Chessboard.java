@@ -18,11 +18,12 @@ public class Chessboard extends PrimitiveChessboard{
 //    int activePlayer;
     Vector<Integer> hitsInLastMove;
 ////	Boolean hitInLastMove;
+    private Boolean isHitContinuation;
 
     public Chessboard(Boolean isPlayer1White) throws Exception{
         super(isPlayer1White);
         activePlayer = 1;
-
+        isHitContinuation = false;
         hitsInLastMove = new Vector<>();
     }
 
@@ -36,14 +37,20 @@ public class Chessboard extends PrimitiveChessboard{
                 updatePossibleMoves(i);
         }
         if(isPossibleHit){
+            int lengthOfLongestHit = 0;
             for(int i = 0 + activePlayerShift; i < 12 + activePlayerShift; i++){
-//                pawns[i].leaveOnlyHitsAsPossibleMoves();
-                leaveLongestHits(i);
+                lengthOfLongestHit = Math.max(lengthOfLongestHit, leaveLongestHits(i));
+            }
+            for(int i = 0 + activePlayerShift; i < 12 + activePlayerShift; i++){
+                if(!pawns[i].getPossibleMoves().isEmpty()){
+                    if(pawns[i].getPossibleMoves().get(0).getCountOfPossibleHits() < lengthOfLongestHit)
+                        pawns[i].resetPossibleMoves();
+                }
             }
         }
     }
 
-    private void leaveLongestHits(int pawnNumber) throws Exception{
+    private int leaveLongestHits(int pawnNumber) throws Exception{
         Pawn checkedPawn = pawns[pawnNumber];
         checkedPawn.leaveOnlyHitsAsPossibleMoves();
         Coordinates originalPosition = new Coordinates(checkedPawn.getPosition());
@@ -69,6 +76,7 @@ public class Chessboard extends PrimitiveChessboard{
                 newPossibleMoves.add(possibleMove);
         }
         checkedPawn.setPossibleMoves(newPossibleMoves);
+        return lengthOfLongestHit;
     }
 
     private int countHits(int pawnNumber, Pawn checkedPawn, Vector<Integer> hittedPawns) throws Exception{
@@ -205,6 +213,8 @@ public class Chessboard extends PrimitiveChessboard{
         updatePossibleMoves(pawnNumber);
 //        pawns[pawnNumber].leaveOnlyHitsAsPossibleMoves();
         leaveLongestHits(pawnNumber);
+        if(!pawns[pawnNumber].getPossibleMoves().isEmpty())
+            isHitContinuation = true;
     }
 
 
@@ -399,6 +409,7 @@ public class Chessboard extends PrimitiveChessboard{
     @Override
     public void movePawnTo(int pawnNumber, Coordinates destination) throws Exception{
         hitsInLastMove = new Vector<>();
+        isHitContinuation = false;
 
         Boolean isHitInMove=false;
         for( PawnPossibleMove possibleMove: pawns[pawnNumber].possibleMoves){
@@ -487,5 +498,9 @@ public class Chessboard extends PrimitiveChessboard{
 
     public int getPawnPosition(int pawnNumber) throws Exception{
         return getPawn(pawnNumber).getPosition().toInt();
+    }
+
+    public Boolean getHitContinuation() {
+        return isHitContinuation;
     }
 }

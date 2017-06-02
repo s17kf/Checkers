@@ -13,6 +13,7 @@ public class PrimitiveChessboard {
     Boolean isPlayer1white;
     Boolean isPossibleHit;
     int activePlayer;
+    private Boolean isGameEnded;
 //    Vector<Integer> hitsInLastMove;
 //	Boolean hitInLastMove;
 
@@ -20,6 +21,7 @@ public class PrimitiveChessboard {
         this.isPlayer1white = isPlayer1White;
         activePlayer = isPlayer1White ? 1 : 2;
         isPossibleHit=false;
+        isGameEnded = false;
 //		hitInLastMove=false;
         board = new int[8][8];
         pawns = new Pawn[24];
@@ -45,6 +47,10 @@ public class PrimitiveChessboard {
     }
 
     public Boolean changePlayer() throws Exception{
+        /*
+        *   if next player has possible moves returns true
+        *   otherwise -> false
+         */
         activePlayer = activePlayer%2 + 1;
         int activePlayerShift = activePlayer == 1 ? 0 : 12;
         updatePossibleMoves();
@@ -52,6 +58,7 @@ public class PrimitiveChessboard {
             if(pawns[i].isPlaying && !pawns[i].getPossibleMoves().isEmpty())
                 return true;
         }
+        isGameEnded = true;
         return false;
     }
 
@@ -499,5 +506,9 @@ public class PrimitiveChessboard {
 
     public void setActivePlayer(int activePlayer) {
         this.activePlayer = activePlayer;
+    }
+
+    public Boolean getGameEnded() {
+        return isGameEnded;
     }
 }

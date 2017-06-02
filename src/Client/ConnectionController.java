@@ -19,8 +19,9 @@ public class ConnectionController implements Runnable{
     ConnectionController(String ipAddress, String portNumber, BoardController board) throws Exception{
         InetAddress address = InetAddress.getByName(ipAddress);
         int port = Integer.parseInt(portNumber);
-
+        System.out.println(1 + ": " + address.toString() + " " + port);
         server = new Socket(address,port);
+        System.out.println(2);
         this.board = board;
 
     }
@@ -33,39 +34,52 @@ public class ConnectionController implements Runnable{
 
     }
 
-    String readMessage() throws Exception{
-        DataInputStream in = new DataInputStream(server.getInputStream());
+    String readMessage(){
+        try {
+            DataInputStream in = new DataInputStream(server.getInputStream());
 
-        return in.readUTF();
+            return in.readUTF();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public void run() {
         while(board.incomingMessagesReader != null){
             try{
-                String receivedMessage = readMessage();
+                if(!board.isNowMyTurn()) {
+                /*
+                * TODO jakiegos ifa bo wywala wyjatek jak ja klikne end connection
+                * ??? Moze ten co na gorze wystarczy??
+                * */
+                    String receivedMessage = readMessage();
 
-                System.out.println("Client received: " + receivedMessage);
+                    System.out.println("Client received: " + receivedMessage);
 
-                if (receivedMessage.equals("disconnected")) {
-                    System.out.println("Other player has disconnected");
-                    break;
-                }
-                if(receivedMessage.equals("endOfGame")){
+                    if (receivedMessage.equals("disconnected")) {
+                        System.out.println("Other player has disconnected");
+                        break;
+                    }
+                    if (receivedMessage.equals("endOfGame")) {
 //                                opponentMove = new MoveParameters(1, receivedMessage);
 //                                opponentMovesToDo.set(true);
-                    Platform.runLater( () -> realizeLastMove(receivedMessage) );
-                    System.out.println("Game over");
+                        Platform.runLater(() -> realizeLastMove(readMessage()));
 
     /*
     * TODO trzeba opracowac zakonczenie gry do jednego z graczy wyslac pakiet o ruchu przeciwnika
      */
 
-                    break;
+                        System.out.println("Game over");
+                        break;
+                    }
+                    Platform.runLater(() -> realizeLastMove(receivedMessage));
+
                 }
-                Platform.runLater( () -> realizeLastMove(receivedMessage) );
-
-
+                else {
+                    board.incomingMessagesReader.sleep(250);
+                }
             }catch (Exception e){
                 e.printStackTrace();
             }

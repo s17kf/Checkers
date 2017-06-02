@@ -23,7 +23,7 @@ public class Server implements Runnable {
     public Server(int port) throws Exception {
 
         serverSocket = new ServerSocket(port);
-        serverSocket.setSoTimeout(15000);
+        serverSocket.setSoTimeout(20000);
 
         players = new Socket[2];
 
@@ -39,7 +39,7 @@ public class Server implements Runnable {
             players[1] = serverSocket.accept();
             System.out.println("player2 connected, address: " + players[1].getRemoteSocketAddress());
         }catch(SocketTimeoutException e){
-            System.out.println("Waiting time reached");
+            System.out.println("Waiting time reached!");
             return;
         }
         catch(Exception e){
@@ -78,17 +78,15 @@ public class Server implements Runnable {
                     out.writeUTF("disconnected");
                     break;
                 }
-//                Object moveParameters[] = getMoveParameters(activePlayer, receivedMessage);
                 MoveParameters moveParameters = new MoveParameters(activePlayer, receivedMessage);
 
-//                int movedPawnNumber = (Integer)moveParameters[0], moveDestination = (Integer)moveParameters[1];
-//                Boolean isHitContinuation = (Boolean) moveParameters[2];
 
                 System.out.println("decoded: " + moveParameters);
                 board.movePawnTo(moveParameters.getMovedPawnNumber(),new Coordinates(moveParameters.getMoveDestination()));
 //                System.out.println(board);
                 if(activePlayer == 1)
                     moveParameters.playerChange();
+
                 if(moveParameters.getHitContinuation()){
                     changeActivePlayer();
                     DataOutputStream out = new DataOutputStream(players[activePlayer-1].getOutputStream());
@@ -97,13 +95,10 @@ public class Server implements Runnable {
                     changeActivePlayer();
                 }
                 else {
-                    Boolean isGameEnded = !board.changePlayer();
-
-                    if(isGameEnded){
-                        DataOutputStream out = new DataOutputStream(players[activePlayer-1].getOutputStream());
-                        out.writeUTF("endOfGame");
+                    if(!board.changePlayer()){
+                        System.out.println("Server: Game over!");
                         changeActivePlayer();
-                        out = new DataOutputStream(players[activePlayer-1].getOutputStream());
+                        DataOutputStream out = new DataOutputStream(players[activePlayer-1].getOutputStream());
                         out.writeUTF("endOfGame");
                         out.writeUTF(moveParameters.toString());
                         break;
@@ -111,15 +106,11 @@ public class Server implements Runnable {
     * TODO trzeba opracowac zakonczenie gry do jednego z graczy wyslac pakiet o ruchu przeciwnika
      */
                     }
-
-//                    changeActivePlayer(activePlayer);
-                    activePlayer=board.getActivePlayer();
-//                    if(activePlayer == 2){
-//                        moveParameters.playerChange();
-//                    }
+                    changeActivePlayer();
                     DataOutputStream out = new DataOutputStream(players[activePlayer-1].getOutputStream());
                     out.writeUTF(moveParameters.toString());
                 }
+
 
 
 
@@ -134,9 +125,13 @@ public class Server implements Runnable {
             }
         }
 
-
-        System.out.println("Outside while( true ) loop !");
-
+        try {
+            players[0].close();
+            players[1].close();
+            System.out.println("Outside while( true ) loop !");
+        }catch (IOException e ){
+            e.printStackTrace();
+        }
     }
 
     void changeActivePlayer(){

@@ -89,17 +89,6 @@ public class BoardController /*implements Runnable*/{
         }
         incomingMessagesReader = new Thread(connectionController);
         incomingMessagesReader.start();
-
-//        if(activePlayer != board.getActivePlayer()) {
-//            Platform.runLater(
-//                    () -> {
-//                        waitForIncomingMessage();
-//                    }
-//            );
-//        }
-
-
-
     }
 
     public void setPlayer1Name(String player1Name) {
@@ -129,7 +118,8 @@ public class BoardController /*implements Runnable*/{
             if (board.isSquareEngaged(squareNumber)) {
                 resetClicks();
                 lastClicked = squareNumber;
-                board.updatePossibleMoves();
+                if(!board.getHitContinuation())
+                    board.updatePossibleMoves();
                 Pawn pawn = board.getPawn(board.getPawnNumber(squareNumber));
                 possibleMoves = pawn.getPossibleMovesAssIntegers();
                 for(Integer number:possibleMoves){
@@ -156,15 +146,13 @@ public class BoardController /*implements Runnable*/{
                 connectionController.sendMessage(new MoveParameters(movedPawnNumber, squareNumber, isHitContinuation).toString());
 
                 if(!isHitContinuation) {
-//                    changeActivePlayer();
-                    board.changePlayer();
-//                    Platform.runLater(
-//                                    () -> {
-//                                        waitForIncomingMessage();
-//
-//                                    }
-//                    );
-//
+                    if(!board.changePlayer()){
+                        System.out.println("Game over");
+                        incomingMessagesReader = null;
+                        /*
+                        * TODO trzeba opracowac zakonczenie gry do jednego z graczy wyslac pakiet o ruchu przeciwnika
+                         */
+                    }
                 }
 
 
@@ -245,11 +233,6 @@ public class BoardController /*implements Runnable*/{
         squaresMap.get(squareNumber).getChildren().add( pawnVisual);
     }
 
-//    void putQueenOnSquare(int squareNumber, Color pawnColor){
-//        Circle queen = new PawnCircle(pawnColor);
-//
-//        squaresMap.get(squareNumber).getChildren().add(queen);
-//    }
 
     void addHighlightToSquare(int squareNumber){
         Circle highlight = new Circle(27,27,25, Color.GREEN);
@@ -359,7 +342,9 @@ public class BoardController /*implements Runnable*/{
         }
     }
 
-
+    Boolean isNowMyTurn(){
+        return activePlayer == board.getActivePlayer();
+    }
 
 
     public void changeActivePlayer(){
