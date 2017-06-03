@@ -40,7 +40,7 @@ public class WaitingController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Chessboard.fxml"));
         Parent root = loader.load();
         BoardController controller = loader.getController();
-        controller.initBoard(ipAddress, portNumber);
+        controller.initBoard(ipAddress, portNumber, playerName);
 
         Scene boardScene = new Scene(root);
         Stage boardStage = (Stage)( waitingLabel1.getScene().getWindow());

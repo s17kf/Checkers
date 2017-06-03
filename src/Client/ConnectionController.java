@@ -5,6 +5,7 @@ import javafx.application.Platform;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -34,15 +35,15 @@ public class ConnectionController implements Runnable{
 
     }
 
-    String readMessage(){
-        try {
+    String readMessage() throws Exception{
+//        try {
             DataInputStream in = new DataInputStream(server.getInputStream());
 
             return in.readUTF();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+       // return null;
     }
 
     @Override
@@ -65,7 +66,11 @@ public class ConnectionController implements Runnable{
                     if (receivedMessage.equals("endOfGame")) {
 //                                opponentMove = new MoveParameters(1, receivedMessage);
 //                                opponentMovesToDo.set(true);
-                        Platform.runLater(() -> realizeLastMove(readMessage()));
+                        String lastMoveParameters = readMessage();
+                        Platform.runLater(() -> {
+                            realizeLastMove(lastMoveParameters);
+                            board.updateWhoMoveLabel();
+                        });
 
     /*
     * TODO trzeba opracowac zakonczenie gry do jednego z graczy wyslac pakiet o ruchu przeciwnika
@@ -74,12 +79,19 @@ public class ConnectionController implements Runnable{
                         System.out.println("Game over");
                         break;
                     }
-                    Platform.runLater(() -> realizeLastMove(receivedMessage));
-
+//                    Platform.runLater(() -> realizeLastMove(receivedMessage));
+                    Platform.runLater(() -> {
+                        realizeLastMove(receivedMessage);
+                        board.updateWhoMoveLabel();
+                    });
                 }
                 else {
                     board.incomingMessagesReader.sleep(250);
                 }
+            }catch (EOFException e) {
+                if(board.getBoard().getGameEnded())
+                    return;
+                e.printStackTrace();
             }catch (Exception e){
                 e.printStackTrace();
             }

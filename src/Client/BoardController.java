@@ -6,6 +6,7 @@ import GameLogic.MoveParameters;
 import GameLogic.Pawn;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -33,6 +34,9 @@ public class BoardController /*implements Runnable*/{
     @FXML
     Pane square41, square42, square43, square44, square45, square46, square47, square48, square49, square50, square51, square52, square53, square54, square55, square56, square57, square58, square59, square60, square61, square62, square63;
 
+    @FXML
+    Label whoMoveLabel;
+
     private Map<Integer, Pane> squaresMap;
     private Vector<Integer> possibleMoves;
     private Integer lastClicked;
@@ -56,7 +60,9 @@ public class BoardController /*implements Runnable*/{
         possibleMoves = new Vector<>();
     }
 
-    public void initBoard(String ipAddress, String portNumber) throws Exception{
+    public void initBoard(String ipAddress, String portNumber, String player1Name) throws Exception{
+
+        this.player1Name = player1Name;
 
         connectionController = new ConnectionController(ipAddress, portNumber, this);
         String color = connectionController.readMessage();
@@ -66,18 +72,6 @@ public class BoardController /*implements Runnable*/{
         activePlayer = 1;
         board=new Chessboard(isPlayer1White);
         board.setActivePlayer(Integer.parseInt(color));
-//        board.updatePossibleMoves();
-//        opponentMove = new MoveParameters();
-
-//        opponentMovesToDo = new SimpleBooleanProperty(false);
-//        opponentMovesToDo.addListener(e -> {
-//            if(opponentMovesToDo.getValue().equals(true)){
-//                realizeOtherPlayerMove(opponentMove.getMovedPawnNumber(), opponentMove.getMoveDestination());
-//                opponentMovesToDo.set(false);
-//            }
-//
-//        });
-
 
         int colorInfluence = isPlayer1White ? 0 : 12;
 
@@ -87,8 +81,11 @@ public class BoardController /*implements Runnable*/{
         for(int i=12-colorInfluence;i<24-colorInfluence;i++){
             putPawnOnSquare(i, board.getPawn(i).getPosition().toInt(),Color.BLACK);
         }
+        updateWhoMoveLabel();
+
         incomingMessagesReader = new Thread(connectionController);
         incomingMessagesReader.start();
+
     }
 
     public void setPlayer1Name(String player1Name) {
@@ -147,12 +144,14 @@ public class BoardController /*implements Runnable*/{
 
                 if(!isHitContinuation) {
                     if(!board.changePlayer()){
+                        incomingMessagesReader.interrupt();
                         System.out.println("Game over");
                         incomingMessagesReader = null;
                         /*
                         * TODO trzeba opracowac zakonczenie gry do jednego z graczy wyslac pakiet o ruchu przeciwnika
                          */
                     }
+                    updateWhoMoveLabel();
                 }
 
 
@@ -349,6 +348,22 @@ public class BoardController /*implements Runnable*/{
 
     public void changeActivePlayer(){
         activePlayer = activePlayer % 2 + 1;
+    }
+
+    void updateWhoMoveLabel(){
+        if(board.getGameEnded()){
+            whoMoveLabel.setText("Game Over");
+            whoMoveLabel.setTextFill(Color.RED);
+            return;
+        }
+        if(activePlayer == getBoard().getActivePlayer()){
+            whoMoveLabel.setText("Now is your move");
+            whoMoveLabel.setTextFill(Color.GREEN);
+        }
+        else{
+            whoMoveLabel.setText("Wait for other player's move");
+            whoMoveLabel.setTextFill(Color.BLUE);
+        }
     }
 }
 
