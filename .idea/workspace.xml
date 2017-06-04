@@ -9,7 +9,12 @@
     <bookmark url="file://$PROJECT_DIR$/src/Client/Chessboard.fxml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="" />
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Client/SquareIndex.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Client/BoardController.java" afterPath="$PROJECT_DIR$/src/Client/BoardController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Client/Chessboard.fxml" afterPath="$PROJECT_DIR$/src/Client/Chessboard.fxml" />
+    </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -79,42 +84,20 @@
       <file leaf-file-name="LoginController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Client/LoginController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="122">
-              <caret line="40" column="0" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+            <state relative-caret-position="295">
+              <caret line="53" column="22" lean-forward="true" selection-start-line="53" selection-start-column="22" selection-end-line="53" selection-end-column="22" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LoginWindow.fxml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Client/LoginWindow.fxml">
-          <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
-            <state />
-          </provider>
-          <provider editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="21" column="9" lean-forward="false" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WaitingController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Client/WaitingController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="122">
-              <caret line="40" column="0" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BoardController.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="BoardController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Client/BoardController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1564">
-              <caret line="356" column="19" lean-forward="false" selection-start-line="356" selection-start-column="19" selection-end-line="356" selection-end-column="19" />
+            <state relative-caret-position="231">
+              <caret line="79" column="39" lean-forward="false" selection-start-line="79" selection-start-column="39" selection-end-line="79" selection-end-column="39" />
               <folding>
+                <element signature="method#BoardController#0;class#BoardController#0" expanded="false" />
                 <element signature="method#onSquareEntered#0;class#BoardController#0" expanded="false" />
                 <element signature="method#onSquareExited#0;class#BoardController#0" expanded="false" />
                 <element signature="method#onEndButtonAction#0;class#BoardController#0" expanded="false" />
@@ -124,37 +107,19 @@
                 <element signature="method#removeHighlightFromSquare#0;class#BoardController#0" expanded="false" />
                 <element signature="method#removePawnFromSquare#0;class#BoardController#0" expanded="false" />
                 <element signature="method#initSquaresMap#0;class#BoardController#0" expanded="false" />
+                <element signature="method#realizeOtherPlayerMove#0;class#BoardController#0" expanded="false" />
+                <element signature="method#updateWhoMoveLabel#0;class#BoardController#0" expanded="false" />
+                <element signature="method#initIndexLabels#0;class#BoardController#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Chessboard.fxml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Client/Chessboard.fxml">
-          <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
-            <state />
-          </provider>
-          <provider editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="366" column="0" lean-forward="true" selection-start-line="361" selection-start-column="24" selection-end-line="366" selection-end-column="0" />
-              <folding>
-                <marker date="1496518907201" expanded="true" signature="35047:35675" ph="..." />
-                <marker date="1496518907201" expanded="true" signature="35151:35662" ph="..." />
-                <marker date="1496518907201" expanded="true" signature="35171:35655" ph="..." />
-                <marker date="1496518907201" expanded="true" signature="35439:35634" ph="..." />
-                <marker date="1496518907201" expanded="true" signature="35461:35523" ph="..." />
-                <marker date="1496518907201" expanded="true" signature="35553:35613" ph="..." />
-                <marker date="1496518907201" expanded="true" signature="35634:35655" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PawnCircle.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Client/PawnCircle.java">
+      <file leaf-file-name="SquareIndex.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Client/SquareIndex.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="10" column="8" lean-forward="true" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
+            <state relative-caret-position="192">
+              <caret line="12" column="54" lean-forward="false" selection-start-line="12" selection-start-column="54" selection-end-line="12" selection-end-column="54" />
               <folding />
             </state>
           </provider>
@@ -163,25 +128,12 @@
       <file leaf-file-name="Server.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Server/Server.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="104" column="6" lean-forward="false" selection-start-line="104" selection-start-column="6" selection-end-line="104" selection-end-column="6" />
+            <state relative-caret-position="1648">
+              <caret line="109" column="107" lean-forward="false" selection-start-line="109" selection-start-column="107" selection-end-line="109" selection-end-column="107" />
               <folding>
-                <marker date="1496507601186" expanded="false" signature="4455:4465" ph=" { " />
-                <marker date="1496507601186" expanded="false" signature="4501:4507" ph=" }" />
-                <marker date="1496507601186" expanded="true" signature="4509:5646" ph="//..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PrimitiveChessboard.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/GameLogic/PrimitiveChessboard.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5695">
-              <caret line="335" column="19" lean-forward="false" selection-start-line="335" selection-start-column="19" selection-end-line="335" selection-end-column="19" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#19353#19354#0" expanded="false" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#4455#4456#0" expanded="false" />
+                <element signature="e#4506#4507#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -190,9 +142,12 @@
       <file leaf-file-name="ConnectionController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Client/ConnectionController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="243">
-              <caret line="83" column="55" lean-forward="false" selection-start-line="83" selection-start-column="55" selection-end-line="83" selection-end-column="55" />
-              <folding />
+            <state relative-caret-position="1296">
+              <caret line="88" column="54" lean-forward="false" selection-start-line="88" selection-start-column="54" selection-end-line="88" selection-end-column="54" />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <marker date="1496591780114" expanded="true" signature="3143:3244" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -203,8 +158,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaFXApplication" />
-        <option value="Class" />
         <option value="FxmlFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -263,6 +218,7 @@
         <option value="$PROJECT_DIR$/src/Client/WaitingController.java" />
         <option value="$PROJECT_DIR$/src/Client/LoginController.java" />
         <option value="$PROJECT_DIR$/src/Client/ConnectionController.java" />
+        <option value="$PROJECT_DIR$/src/Client/SquareIndex.java" />
         <option value="$PROJECT_DIR$/src/Client/BoardController.java" />
         <option value="$PROJECT_DIR$/src/Client/Chessboard.fxml" />
       </list>
@@ -276,10 +232,10 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1382" />
-    <option name="height" value="744" />
+    <option name="x" value="1413" />
+    <option name="y" value="-4" />
+    <option name="width" value="1393" />
+    <option name="height" value="904" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -297,9 +253,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -404,6 +357,9 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -937,6 +893,7 @@
       <workItem from="1496232036981" duration="13302000" />
       <workItem from="1496438468341" duration="3051000" />
       <workItem from="1496507751751" duration="10314000" />
+      <workItem from="1496604097881" duration="754000" />
     </task>
     <task id="LOCAL-00001" summary="some net communication added">
       <created>1496094132938</created>
@@ -949,7 +906,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="204035000" />
+    <option name="totallyTimeSpent" value="215751000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -961,7 +918,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="1413" y="-4" width="1393" height="904" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -973,12 +931,12 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32961586" sideWeight="0.5" order="18" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19716088" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19702603" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="19" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14787701" sideWeight="0.6703755" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13998564" sideWeight="0.6703755" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24963397" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -987,16 +945,38 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2961586" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24963397" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2961586" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32961586" sideWeight="0.5" order="18" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19716088" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="19" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="20" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14783928" sideWeight="0.6703755" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3280757" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="17" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1023,7 +1003,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="338" />
+      <option name="time" value="339" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1032,14 +1012,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Client/LoginController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="50" column="0" lean-forward="false" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Client/WaitingController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
@@ -1053,6 +1025,7 @@
         <state relative-caret-position="2669">
           <caret line="157" column="13" lean-forward="true" selection-start-line="157" selection-start-column="13" selection-end-line="157" selection-end-column="13" />
           <folding>
+            <element signature="method#BoardController#0;class#BoardController#0" expanded="false" />
             <element signature="method#onSquareEntered#0;class#BoardController#0" expanded="false" />
             <element signature="method#onSquareExited#0;class#BoardController#0" expanded="false" />
             <element signature="method#onEndButtonAction#0;class#BoardController#0" expanded="false" />
@@ -1062,6 +1035,9 @@
             <element signature="method#removeHighlightFromSquare#0;class#BoardController#0" expanded="false" />
             <element signature="method#removePawnFromSquare#0;class#BoardController#0" expanded="false" />
             <element signature="method#initSquaresMap#0;class#BoardController#0" expanded="false" />
+            <element signature="method#realizeOtherPlayerMove#0;class#BoardController#0" expanded="false" />
+            <element signature="method#updateWhoMoveLabel#0;class#BoardController#0" expanded="false" />
+            <element signature="method#initIndexLabels#0;class#BoardController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1071,9 +1047,9 @@
         <state relative-caret-position="85">
           <caret line="5" column="19" lean-forward="false" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
           <folding>
-            <marker date="1496507601186" expanded="false" signature="4455:4465" ph=" { " />
-            <marker date="1496507601186" expanded="false" signature="4501:4507" ph=" }" />
-            <marker date="1496507601186" expanded="true" signature="4509:5646" ph="//..." />
+            <element signature="imports" expanded="false" />
+            <element signature="e#4455#4456#0" expanded="false" />
+            <element signature="e#4506#4507#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1083,7 +1059,32 @@
         <state relative-caret-position="4777">
           <caret line="281" column="0" lean-forward="true" selection-start-line="281" selection-start-column="0" selection-end-line="281" selection-end-column="0" />
           <folding>
-            <marker date="1496507601113" expanded="false" signature="22606:22613" ph="{...}" />
+            <element signature="imports" expanded="false" />
+            <element signature="method#updatePossibleMoves#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#leaveLongestHits#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#countHits#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#updatePossibleMoves#1;class#Chessboard#0" expanded="false" />
+            <element signature="method#updatePossibleMovesForContinuation#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#addQueenPossibleUpLeft#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#addQueenPossibleUpRight#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#addQueenPossibleDownLeft#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#addQueenPossibleDownRight#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#checkHitUpLeft#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#checkHitUpRight#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#checkHitDownLeft#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#checkHitDownRight#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#possibleMoves#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#possibleMoves#1;class#Chessboard#0" expanded="false" />
+            <element signature="method#movePawnTo#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#moveFromSquareToSquare#0;class#Chessboard#0" expanded="false" />
+            <element signature="e#20177#20262#0" expanded="false" />
+            <element signature="method#hitUpLeft#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#hitUpRight#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#hitDownLeft#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#hitDownRight#0;class#Chessboard#0" expanded="false" />
+            <element signature="e#22362#22363#0" expanded="false" />
+            <element signature="e#22399#22400#0" expanded="false" />
+            <element signature="method#getPawnPosition#0;class#Chessboard#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1182,7 +1183,6 @@
       <provider editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1206,10 +1206,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/GameLogic/Chessboard.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1598">
-          <caret line="505" column="1" lean-forward="false" selection-start-line="505" selection-start-column="1" selection-end-line="505" selection-end-column="1" />
+        <state relative-caret-position="1328">
+          <caret line="502" column="41" lean-forward="false" selection-start-line="502" selection-start-column="41" selection-end-line="502" selection-end-column="41" />
           <folding>
-            <marker date="1496507601113" expanded="false" signature="22606:22613" ph="{...}" />
+            <element signature="imports" expanded="false" />
+            <element signature="method#updatePossibleMoves#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#leaveLongestHits#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#countHits#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#updatePossibleMoves#1;class#Chessboard#0" expanded="false" />
+            <element signature="method#updatePossibleMovesForContinuation#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#addQueenPossibleUpLeft#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#addQueenPossibleUpRight#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#addQueenPossibleDownLeft#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#addQueenPossibleDownRight#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#checkHitUpLeft#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#checkHitUpRight#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#checkHitDownLeft#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#checkHitDownRight#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#possibleMoves#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#possibleMoves#1;class#Chessboard#0" expanded="false" />
+            <element signature="method#movePawnTo#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#moveFromSquareToSquare#0;class#Chessboard#0" expanded="false" />
+            <element signature="e#20177#20262#0" expanded="false" />
+            <element signature="method#hitUpLeft#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#hitUpRight#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#hitDownLeft#0;class#Chessboard#0" expanded="false" />
+            <element signature="method#hitDownRight#0;class#Chessboard#0" expanded="false" />
+            <element signature="e#22362#22363#0" expanded="false" />
+            <element signature="e#22399#22400#0" expanded="false" />
+            <element signature="method#getPawnPosition#0;class#Chessboard#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1226,10 +1251,51 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/GameLogic/PrimitiveChessboard.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5695">
-          <caret line="335" column="19" lean-forward="false" selection-start-line="335" selection-start-column="19" selection-end-line="335" selection-end-column="19" />
+        <state relative-caret-position="1152">
+          <caret line="328" column="19" lean-forward="false" selection-start-line="328" selection-start-column="19" selection-end-line="328" selection-end-column="19" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="method#PrimitiveChessboard#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#updatePossibleMoves#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#updatePossibleMoves#1;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#updatePossibleMovesForContinuation#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#resetPossibleMoves#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#addQueenPossibleUpLeft#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#addQueenPossibleUpRight#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#addQueenPossibleDownLeft#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#addQueenPossibleDownRight#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#checkHitUpLeft#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#checkHitUpRight#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#checkHitDownLeft#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#checkHitDownRight#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#checkHitUpLeft#1;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#checkHitUpRight#1;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#checkHitDownLeft#1;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#checkHitDownRight#1;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#isSquareEngaged#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#isSquareEngaged#2;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#movePawnTo#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#hit#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#hitUpLeft#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#hitUpRight#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#hitDownLeft#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#hitDownRight#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#toString#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#isPlayer1#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#isPlayer2#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#isOtherPlayer#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#isPawnWhite#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#isActivePlayersPawn#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="e#18679#18680#0" expanded="false" />
+            <element signature="e#18727#18728#0" expanded="false" />
+            <element signature="e#18765#18766#0" expanded="false" />
+            <element signature="e#18811#18812#0" expanded="false" />
+            <element signature="method#getPawnNumber#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="method#getPawn#0;class#PrimitiveChessboard#0" expanded="false" />
+            <element signature="e#19146#19147#0" expanded="false" />
+            <element signature="e#19181#19182#0" expanded="false" />
+            <element signature="e#19234#19235#0" expanded="false" />
+            <element signature="e#19282#19283#0" expanded="false" />
+            <element signature="e#19319#19320#0" expanded="false" />
             <element signature="e#19353#19354#0" expanded="false" />
           </folding>
         </state>
@@ -1237,78 +1303,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Server/Server.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="104" column="6" lean-forward="false" selection-start-line="104" selection-start-column="6" selection-end-line="104" selection-end-column="6" />
+        <state relative-caret-position="1648">
+          <caret line="109" column="107" lean-forward="false" selection-start-line="109" selection-start-column="107" selection-end-line="109" selection-end-column="107" />
           <folding>
-            <marker date="1496507601186" expanded="false" signature="4455:4465" ph=" { " />
-            <marker date="1496507601186" expanded="false" signature="4501:4507" ph=" }" />
-            <marker date="1496507601186" expanded="true" signature="4509:5646" ph="//..." />
+            <element signature="imports" expanded="false" />
+            <element signature="e#4455#4456#0" expanded="false" />
+            <element signature="e#4506#4507#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Client/PawnCircle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="10" column="8" lean-forward="true" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Client/ConnectionController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="83" column="55" lean-forward="false" selection-start-line="83" selection-start-column="55" selection-end-line="83" selection-end-column="55" />
-          <folding />
+        <state relative-caret-position="1296">
+          <caret line="88" column="54" lean-forward="false" selection-start-line="88" selection-start-column="54" selection-end-line="88" selection-end-column="54" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <marker date="1496591780114" expanded="true" signature="3143:3244" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Client/WaitingController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="122">
-          <caret line="40" column="0" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Client/BoardController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1564">
-          <caret line="356" column="19" lean-forward="false" selection-start-line="356" selection-start-column="19" selection-end-line="356" selection-end-column="19" />
-          <folding>
-            <element signature="method#onSquareEntered#0;class#BoardController#0" expanded="false" />
-            <element signature="method#onSquareExited#0;class#BoardController#0" expanded="false" />
-            <element signature="method#onEndButtonAction#0;class#BoardController#0" expanded="false" />
-            <element signature="method#resetClicks#0;class#BoardController#0" expanded="false" />
-            <element signature="method#putPawnOnSquare#0;class#BoardController#0" expanded="false" />
-            <element signature="method#addHighlightToSquare#0;class#BoardController#0" expanded="false" />
-            <element signature="method#removeHighlightFromSquare#0;class#BoardController#0" expanded="false" />
-            <element signature="method#removePawnFromSquare#0;class#BoardController#0" expanded="false" />
-            <element signature="method#initSquaresMap#0;class#BoardController#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Client/Chessboard.fxml">
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="366" column="0" lean-forward="true" selection-start-line="361" selection-start-column="24" selection-end-line="366" selection-end-column="0" />
-          <folding>
-            <marker date="1496518907201" expanded="true" signature="35047:35675" ph="..." />
-            <marker date="1496518907201" expanded="true" signature="35151:35662" ph="..." />
-            <marker date="1496518907201" expanded="true" signature="35171:35655" ph="..." />
-            <marker date="1496518907201" expanded="true" signature="35439:35634" ph="..." />
-            <marker date="1496518907201" expanded="true" signature="35461:35523" ph="..." />
-            <marker date="1496518907201" expanded="true" signature="35553:35613" ph="..." />
-            <marker date="1496518907201" expanded="true" signature="35634:35655" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Client/LoginController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="122">
           <caret line="40" column="0" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
@@ -1324,6 +1340,68 @@
         <state relative-caret-position="102">
           <caret line="21" column="9" lean-forward="false" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="9" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Client/PawnCircle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="18" column="9" lean-forward="false" selection-start-line="18" selection-start-column="9" selection-end-line="18" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Client/SquareIndex.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="12" column="54" lean-forward="false" selection-start-line="12" selection-start-column="54" selection-end-line="12" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Client/LoginController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="295">
+          <caret line="53" column="22" lean-forward="true" selection-start-line="53" selection-start-column="22" selection-end-line="53" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Client/Chessboard.fxml">
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="16" column="94" lean-forward="true" selection-start-line="16" selection-start-column="94" selection-end-line="16" selection-end-column="94" />
+          <folding>
+            <marker date="1496612429780" expanded="true" signature="48873:48874" ph="..." />
+            <marker date="1496612429780" expanded="true" signature="48873:48888" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Client/BoardController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="79" column="39" lean-forward="false" selection-start-line="79" selection-start-column="39" selection-end-line="79" selection-end-column="39" />
+          <folding>
+            <element signature="method#BoardController#0;class#BoardController#0" expanded="false" />
+            <element signature="method#onSquareEntered#0;class#BoardController#0" expanded="false" />
+            <element signature="method#onSquareExited#0;class#BoardController#0" expanded="false" />
+            <element signature="method#onEndButtonAction#0;class#BoardController#0" expanded="false" />
+            <element signature="method#resetClicks#0;class#BoardController#0" expanded="false" />
+            <element signature="method#putPawnOnSquare#0;class#BoardController#0" expanded="false" />
+            <element signature="method#addHighlightToSquare#0;class#BoardController#0" expanded="false" />
+            <element signature="method#removeHighlightFromSquare#0;class#BoardController#0" expanded="false" />
+            <element signature="method#removePawnFromSquare#0;class#BoardController#0" expanded="false" />
+            <element signature="method#initSquaresMap#0;class#BoardController#0" expanded="false" />
+            <element signature="method#realizeOtherPlayerMove#0;class#BoardController#0" expanded="false" />
+            <element signature="method#updateWhoMoveLabel#0;class#BoardController#0" expanded="false" />
+            <element signature="method#initIndexLabels#0;class#BoardController#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

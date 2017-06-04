@@ -6,9 +6,13 @@ import GameLogic.MoveParameters;
 import GameLogic.Pawn;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.input.MouseEvent;
@@ -36,6 +40,17 @@ public class BoardController /*implements Runnable*/{
 
     @FXML
     Label whoMoveLabel;
+
+    @FXML
+    VBox leftIndexLabels, rightIndexLabels;
+    @FXML
+    HBox upIndexLabels, downIndexLabels;
+
+    @FXML
+    HBox player1HitPawns, player2HitPawns;
+
+    @FXML
+    TextArea logTextArea;
 
     private Map<Integer, Pane> squaresMap;
     private Vector<Integer> possibleMoves;
@@ -69,9 +84,12 @@ public class BoardController /*implements Runnable*/{
 
         initSquaresMap();
         isPlayer1White = color.equals("1");
+//        isPlayer1White = true;
         activePlayer = 1;
         board=new Chessboard(isPlayer1White);
         board.setActivePlayer(Integer.parseInt(color));
+//        board.setActivePlayer(1);
+        initIndexLabels(isPlayer1White);
 
         int colorInfluence = isPlayer1White ? 0 : 12;
 
@@ -135,6 +153,9 @@ public class BoardController /*implements Runnable*/{
                 board.moveFromSquareToSquare(lastClicked, squareNumber);
 
                 squaresMap.get(lastClicked).getChildren().remove(1);
+//                System.out.println(new SquareIndex(lastClicked,isPlayer1White) + "->" + new SquareIndex(squareNumber,isPlayer1White));
+
+                logTextArea.insertText(logTextArea.getLength(), createMoveLog(lastClicked, squareNumber, true));
                 resetClicks();
                 possibleMoves = board.getPawn(movedPawnNumber).getPossibleMovesAssIntegers();
 
@@ -158,6 +179,7 @@ public class BoardController /*implements Runnable*/{
                 Vector<Integer> squaresToClean = board.getHitsInLastMove();
                 for (Integer squareToClean : squaresToClean) {
                     squaresMap.get(squareToClean).getChildren().remove(1);
+                    addHitPawn(1);
                 }
 
 
@@ -325,11 +347,14 @@ public class BoardController /*implements Runnable*/{
             int sourceSquare = board.getPawnPosition(movedPawnNumber);
             board.movePawnTo(movedPawnNumber, new Coordinates(destination));
 
+            logTextArea.insertText(logTextArea.getLength(), createMoveLog(sourceSquare, destination, false));
+
             Vector<Integer> squaresToClean = board.getHitsInLastMove();
             for (Integer squareToClean : squaresToClean) {
                 System.out.println("Deleting pawn on " + squareToClean);
 //                squaresMap.get(squareToClean).getChildren().remove(1);
                 removePawnFromSquare(squareToClean);
+                addHitPawn(2);
             }
 
 //            squaresMap.get(sourceSquare).getChildren().remove(1);
@@ -365,5 +390,76 @@ public class BoardController /*implements Runnable*/{
             whoMoveLabel.setTextFill(Color.BLUE);
         }
     }
+
+    void initIndexLabels(Boolean isPlayer1White){
+        String characters = new String("ABCDEFGH");
+        if(isPlayer1White) {
+            Integer i = 8;
+            for (Node label : leftIndexLabels.getChildren()) {
+                ((Label) label).setText(i.toString());
+                i--;
+            }
+            i = 8;
+            for (Node label : rightIndexLabels.getChildren()) {
+                ((Label) label).setText(i.toString());
+                i--;
+            }
+            i = 0;
+            for (Node label : upIndexLabels.getChildren()) {
+                ((Label) label).setText(Character.valueOf(characters.charAt(i)).toString());
+                i++;
+            }
+            i = 0;
+            for (Node label : downIndexLabels.getChildren()) {
+                ((Label) label).setText(Character.valueOf(characters.charAt(i)).toString());
+                i++;
+            }
+        }
+        else{
+            Integer i = 1;
+            for (Node label : leftIndexLabels.getChildren()) {
+                ((Label) label).setText(i.toString());
+                i++;
+            }
+            i = 1;
+            for (Node label : rightIndexLabels.getChildren()) {
+                ((Label) label).setText(i.toString());
+                i++;
+            }
+            i = 7;
+            for (Node label : upIndexLabels.getChildren()) {
+                ((Label) label).setText(Character.valueOf(characters.charAt(i)).toString());
+                i--;
+            }
+            i = 7;
+            for (Node label : downIndexLabels.getChildren()) {
+                ((Label) label).setText(Character.valueOf(characters.charAt(i)).toString());
+                i--;
+            }
+
+        }
+    }
+
+    String createMoveLog(int moveSource, int moveDestination, Boolean isItYourMove){
+        String result = isItYourMove ? "Your move: " : "Other player's move: ";
+        result += new SquareIndex(moveSource,isPlayer1White) + "->" + new SquareIndex(moveDestination,isPlayer1White) + "\n";
+        return result;
+    }
+
+    void addHitPawn(int playerNumber){
+        Color pawnColor;
+        if(isPlayer1White)
+            pawnColor = playerNumber == 1 ? Color.WHITE : Color.BLACK;
+        else
+            pawnColor = playerNumber == 1 ? Color.BLACK : Color.WHITE;
+
+        if(playerNumber == 1){
+            player1HitPawns.getChildren().add(new Circle(18,pawnColor));
+        }
+        else{
+            player2HitPawns.getChildren().add(new Circle(18,pawnColor));
+        }
+    }
+
 }
 
