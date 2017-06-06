@@ -1,6 +1,5 @@
 package Server;
 
-import GameLogic.Chessboard;
 import GameLogic.Coordinates;
 import GameLogic.MoveParameters;
 import GameLogic.PrimitiveChessboard;
@@ -19,6 +18,7 @@ public class Server implements Runnable {
     Socket players[];
     PrimitiveChessboard board;
     int activePlayer;
+    Boolean isGameEnded;
 
     public Server(int port) throws Exception {
 
@@ -28,6 +28,11 @@ public class Server implements Runnable {
         players = new Socket[2];
 
         System.out.println("Server started");
+
+        isGameEnded = true;
+        /*
+        *   TODO musi byc false, ale najpeirw klient musi moc obslozyc koniec gry normalnie
+         */
     }
 
     @Override
@@ -62,68 +67,67 @@ public class Server implements Runnable {
         }catch (Exception e){
             e.printStackTrace();
         }
+        do {
+            while (true) {
+                try {
+                    activePlayer = board.getActivePlayer();
+                    DataInputStream in = new DataInputStream(players[activePlayer - 1].getInputStream());
+                    String receivedMessage = in.readUTF();
 
-        while (true) {
-            try {
-                activePlayer = board.getActivePlayer();
-                DataInputStream in = new DataInputStream(players[activePlayer-1].getInputStream());
-                String receivedMessage = in.readUTF();
+                    System.out.println("incoming: " + receivedMessage);
 
-                System.out.println("incoming: " + receivedMessage);
+                    if (receivedMessage.equals("disconnecting")) {
+                        players[activePlayer - 1].close();
+                        changeActivePlayer();
+                        DataOutputStream out = new DataOutputStream(players[activePlayer - 1].getOutputStream());
+                        out.writeUTF("disconnected");
+                        break;
+                    }
+                    MoveParameters moveParameters = new MoveParameters(activePlayer, receivedMessage);
 
-                if(receivedMessage.equals("disconnecting")){
-                    players[activePlayer-1].close();
-                    changeActivePlayer();
-                    DataOutputStream out = new DataOutputStream(players[activePlayer-1].getOutputStream());
-                    out.writeUTF("disconnected");
+
+                    System.out.println("decoded: " + moveParameters);
+                    board.movePawnTo(moveParameters.getMovedPawnNumber(), new Coordinates(moveParameters.getMoveDestination()));
+//                System.out.println(board);
+                    if (activePlayer == 1)
+                        moveParameters.playerChange();
+
+                    if (moveParameters.getHitContinuation()) {
+                        changeActivePlayer();
+                        DataOutputStream out = new DataOutputStream(players[activePlayer - 1].getOutputStream());
+                        System.out.println("sent to: " + activePlayer);
+                        out.writeUTF(moveParameters.toString());
+                        changeActivePlayer();
+                    } else {
+                        if (!board.changePlayer()) {
+                            System.out.println("Server: Game over!");
+                            changeActivePlayer();
+                            DataOutputStream out = new DataOutputStream(players[activePlayer - 1].getOutputStream());
+                            out.writeUTF("endOfGame");
+                            out.writeUTF(moveParameters.toString());
+                            break;
+                        }
+                        changeActivePlayer();
+                        DataOutputStream out = new DataOutputStream(players[activePlayer - 1].getOutputStream());
+                        out.writeUTF(moveParameters.toString());
+                    }
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    break;
+                } catch (Exception e) {
+                    e.printStackTrace();
                     break;
                 }
-                MoveParameters moveParameters = new MoveParameters(activePlayer, receivedMessage);
-
-
-                System.out.println("decoded: " + moveParameters);
-                board.movePawnTo(moveParameters.getMovedPawnNumber(),new Coordinates(moveParameters.getMoveDestination()));
-//                System.out.println(board);
-                if(activePlayer == 1)
-                    moveParameters.playerChange();
-
-                if(moveParameters.getHitContinuation()){
-                    changeActivePlayer();
-                    DataOutputStream out = new DataOutputStream(players[activePlayer-1].getOutputStream());
-                    System.out.println("sent to: " + activePlayer);
-                    out.writeUTF(moveParameters.toString());
-                    changeActivePlayer();
-                }
-                else {
-                    if(!board.changePlayer()){
-                        System.out.println("Server: Game over!");
-                        changeActivePlayer();
-                        DataOutputStream out = new DataOutputStream(players[activePlayer-1].getOutputStream());
-                        out.writeUTF("endOfGame");
-                        out.writeUTF(moveParameters.toString());
-                        break;
-    /*
-    * TODO trzeba opracowac zakonczenie gry do jednego z graczy wyslac pakiet o ruchu przeciwnika
-     */
-                    }
-                    changeActivePlayer();
-                    DataOutputStream out = new DataOutputStream(players[activePlayer-1].getOutputStream());
-                    out.writeUTF(moveParameters.toString());
-                }
-
-
-
-
-
-
-            }catch (IOException e) {
-                e.printStackTrace();
-                break;
-            }catch (Exception e){
-                e.printStackTrace();
-                break;
             }
-        }
+
+            /*
+            *   TODO zebranie informacji czy klienci chca dalej grac
+             */
+
+
+        }while (!isGameEnded);
 
         try {
             players[0].close();

@@ -61,11 +61,11 @@ public class ConnectionController implements Runnable{
 
                     if (receivedMessage.equals("disconnected")) {
                         System.out.println("Other player has disconnected");
+                        board.whoMoveLabelSetDisconnected();
+                        board.addLineToMoveLog("Other player has disconnected!");
                         break;
                     }
                     if (receivedMessage.equals("endOfGame")) {
-//                                opponentMove = new MoveParameters(1, receivedMessage);
-//                                opponentMovesToDo.set(true);
                         String lastMoveParameters = readMessage();
                         Platform.runLater(() -> {
                             realizeLastMove(lastMoveParameters);
@@ -101,8 +101,6 @@ public class ConnectionController implements Runnable{
     void realizeLastMove(String receivedMessage){
         MoveParameters moveParameters = new MoveParameters(1, receivedMessage);
         board.realizeOtherPlayerMove(moveParameters.getMovedPawnNumber(), moveParameters.getMoveDestination());
-//                            opponentMove = new MoveParameters(1, receivedMessage);
-//                            opponentMovesToDo.set(true);
         if(!moveParameters.getHitContinuation()){
             try {
                 board.getBoard().changePlayer();

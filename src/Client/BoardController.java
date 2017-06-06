@@ -64,10 +64,6 @@ public class BoardController /*implements Runnable*/{
     private ConnectionController connectionController;
     private int activePlayer;
     Thread incomingMessagesReader;
-//    private BooleanProperty opponentMovesToDo;
-//    private MoveParameters opponentMove;
-    private Platform platform;
-
 
     public BoardController(){
 
@@ -83,12 +79,11 @@ public class BoardController /*implements Runnable*/{
         String color = connectionController.readMessage();
 
         initSquaresMap();
+
         isPlayer1White = color.equals("1");
-//        isPlayer1White = true;
         activePlayer = 1;
         board=new Chessboard(isPlayer1White);
         board.setActivePlayer(Integer.parseInt(color));
-//        board.setActivePlayer(1);
         initIndexLabels(isPlayer1White);
 
         int colorInfluence = isPlayer1White ? 0 : 12;
@@ -347,7 +342,7 @@ public class BoardController /*implements Runnable*/{
             int sourceSquare = board.getPawnPosition(movedPawnNumber);
             board.movePawnTo(movedPawnNumber, new Coordinates(destination));
 
-            logTextArea.insertText(logTextArea.getLength(), createMoveLog(sourceSquare, destination, false));
+            addLineToMoveLog(createMoveLog(sourceSquare, destination, false));
 
             Vector<Integer> squaresToClean = board.getHitsInLastMove();
             for (Integer squareToClean : squaresToClean) {
@@ -389,6 +384,11 @@ public class BoardController /*implements Runnable*/{
             whoMoveLabel.setText("Wait for other player's move");
             whoMoveLabel.setTextFill(Color.BLUE);
         }
+    }
+
+    void whoMoveLabelSetDisconnected(){
+        whoMoveLabel.setText("Other player has disconnected");
+        whoMoveLabel.setTextFill(Color.RED);
     }
 
     void initIndexLabels(Boolean isPlayer1White){
@@ -444,6 +444,10 @@ public class BoardController /*implements Runnable*/{
         String result = isItYourMove ? "Your move: " : "Other player's move: ";
         result += new SquareIndex(moveSource,isPlayer1White) + "->" + new SquareIndex(moveDestination,isPlayer1White) + "\n";
         return result;
+    }
+
+    void addLineToMoveLog(String log){
+        logTextArea.insertText(logTextArea.getLength(), log);
     }
 
     void addHitPawn(int playerNumber){
