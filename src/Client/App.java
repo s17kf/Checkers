@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 
 import java.io.IOException;
 
-public class ClientRun extends Application {
+public class App extends Application {
 
     public static void main(String[] args) {
         launch(args);
@@ -18,7 +18,7 @@ public class ClientRun extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("LoginWindow.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("View/LoginWindow.fxml"));
         primaryStage.setTitle("Checkers");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);

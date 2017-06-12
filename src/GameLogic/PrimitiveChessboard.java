@@ -14,18 +14,14 @@ public class PrimitiveChessboard {
     Boolean isPossibleHit;
     int activePlayer;
     private Boolean isGameEnded;
-//    Vector<Integer> hitsInLastMove;
-//	Boolean hitInLastMove;
 
     public PrimitiveChessboard(Boolean isPlayer1White) throws Exception{
         this.isPlayer1white = isPlayer1White;
         activePlayer = isPlayer1White ? 1 : 2;
         isPossibleHit=false;
         isGameEnded = false;
-//		hitInLastMove=false;
         board = new int[8][8];
         pawns = new Pawn[24];
-//        hitsInLastMove = new Vector<>();
         for(int i=0;i<64;i++){
             board[i/8][i%8]=-1;
         }
@@ -416,29 +412,17 @@ public class PrimitiveChessboard {
         for(int i=0;i<8;i++){
             toReturn+=(Arrays.toString(board[i]) + "\n");
         }
-//        toReturn+="Pawns:";
-//        for(int i=0;i<pawns.length;i++)
-//            toReturn+="("+i+"="+pawns[i].position.toString()+")";
-        //toReturn+=Arrays.toString(pawns);
         return toReturn;
-
-//		return "Chessboard [board=" + Arrays.toString(board) + "]";
     }
 
     Boolean isPlayer1(int pawnNumber)throws Exception{
         if(pawnNumber<0 || pawnNumber>23)
             throw new Exception("Bad pawn number!");
         if(pawnNumber<12){
-            //	if(isPlayer1white)
             return true;
-            //		else
-            //		return false;
         }
         else{
-            //		if(isPlayer1white)
             return false;
-//			else
-//				return true;
         }
     }
     Boolean isPlayer2(int pawnNumber) throws Exception{
@@ -468,18 +452,6 @@ public class PrimitiveChessboard {
         if(isPlayer1(pawnNumber))
             return false;
         return true;
-    }
-
-
-    Boolean isActivePlayersPawn(int pawnNumber) throws Exception{
-        if(isPlayer1(pawnNumber)){
-            if(activePlayer==1)
-                return true;
-            return false;
-        }
-        if(activePlayer==2)
-            return true;
-        return false;
     }
 
     public Boolean isQueen(int pawnNumber){

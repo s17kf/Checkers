@@ -4,20 +4,12 @@ package GameLogic;
  * Created by Stefan on 2017-05-19.
  */
 
-import com.sun.javafx.embed.EmbeddedSceneDSInterface;
-
 import java.util.Vector;
 
 
 public class Chessboard extends PrimitiveChessboard{
 
-//    int board[][];	//board[Y][X] !!! ( no [x][y] )
-//    Pawn pawns[];
-//    Boolean isPlayer1white;
-//    Boolean isPossibleHit;
-//    int activePlayer;
     Vector<Integer> hitsInLastMove;
-////	Boolean hitInLastMove;
     private Boolean isHitContinuation;
 
     public Chessboard(Boolean isPlayer1White) throws Exception{
@@ -30,7 +22,6 @@ public class Chessboard extends PrimitiveChessboard{
     @Override
     public void updatePossibleMoves() throws Exception{
         int activePlayerShift = activePlayer == 1 ? 0 : 12;
-//        System.out.println(activePlayerShift);
         isPossibleHit=false;
         for(int i = 0 + activePlayerShift; i < 12 + activePlayerShift; i++) {
             if(pawns[i].isPlaying)
@@ -80,7 +71,6 @@ public class Chessboard extends PrimitiveChessboard{
     }
 
     private int countHits(int pawnNumber, Pawn checkedPawn, Vector<Integer> hittedPawns) throws Exception{
-//        System.out.println(pawnNumber + ": " + checkedPawn.getPosition());
         updatePossibleMoves(pawnNumber, checkedPawn, true, hittedPawns);
         checkedPawn.leaveOnlyHitsAsPossibleMoves();
         if(checkedPawn.getPossibleMoves().isEmpty())
@@ -211,7 +201,6 @@ public class Chessboard extends PrimitiveChessboard{
             pawn.resetPossibleMoves();
         }
         updatePossibleMoves(pawnNumber);
-//        pawns[pawnNumber].leaveOnlyHitsAsPossibleMoves();
         leaveLongestHits(pawnNumber);
         if(!pawns[pawnNumber].getPossibleMoves().isEmpty())
             isHitContinuation = true;
@@ -321,7 +310,6 @@ public class Chessboard extends PrimitiveChessboard{
 
 
     private Boolean checkHitUpLeft(int pawnNumber, Coordinates hittedSquare, Boolean isItForCountHits, Vector<Integer> hittedPawns) throws Exception{
-//        System.out.println("checking hit up left pNumber:" + pawnNumber + "checkedSquare: " + hittedSquare);
         if(hittedSquare.getX() > 0 && hittedSquare.getY() > 0){
             if(isSquareEngaged(hittedSquare) && isOtherPlayer(board[hittedSquare.getY()][hittedSquare.getX()],pawnNumber)){
                 if(isItForCountHits){
@@ -398,10 +386,6 @@ public class Chessboard extends PrimitiveChessboard{
         throw new Exception("Try to get possible moves of empty square!");
     }
 
-    public Vector<Integer> possibleMoves(Coordinates coordinates) throws Exception{
-        return possibleMoves(coordinates.x,coordinates.y);
-    }
-
     public Vector<Integer> possibleMoves(int pawnNumber) throws Exception{
         return possibleMoves(pawns[pawnNumber].position.x,pawns[pawnNumber].position.y);
     }
@@ -433,23 +417,6 @@ public class Chessboard extends PrimitiveChessboard{
     public void moveFromSquareToSquare(int sourceSquareNumber, int destinationSquareNumber)throws Exception{
         movePawnTo(getPawnNumber(sourceSquareNumber),new Coordinates(destinationSquareNumber));
     }
-
-//    private void hit(Coordinates source, Coordinates destination) throws Exception{
-//        if(destination.x < source.x){
-//            if(destination.y < source.y)
-//                hitUpLeft(source, destination);
-//            else
-//                hitDownLeft(source, destination);
-//        }
-//        else{
-//            if(destination.y < source.y)
-//                hitUpRight(source, destination);
-//            else
-//                hitDownRight(source, destination);
-//        }
-//    }
-
-
 
     @Override
     protected void hitUpLeft(Coordinates source, Coordinates destination) throws Exception{

@@ -20,9 +20,6 @@ public class Pawn{
         possibleMoves=new Vector<PawnPossibleMove>();
     }
 
-    void setPosition(int squareNumber) throws Exception{
-        position=new Coordinates(squareNumber);
-    }
     void setPosition(Coordinates newPosition){
         position= new Coordinates(newPosition);
     }
@@ -98,10 +95,6 @@ public class Pawn{
     }
 
     Vector<PawnPossibleMove> getPossibleMoves(){
-//        Vector<Coordinates> result=new Vector<Coordinates>();
-//        for(PawnPossibleMove possibleMove:possibleMoves){
-//            result.add(possibleMove.destination);
-//        }
         return possibleMoves;
     }
 
@@ -134,8 +127,6 @@ class PawnPossibleMove extends Coordinates{
     int countOfPossibleHits;
 
     public PawnPossibleMove(Coordinates destination,Boolean isHit){
-//		this.destination=destination;
-//        this.destination=new Coordinates(destination.toInt());
         super(destination);
         this.isHit=new Boolean(isHit);
         countOfPossibleHits = 0;

@@ -3,6 +3,7 @@ package Server;
 import GameLogic.Coordinates;
 import GameLogic.MoveParameters;
 import GameLogic.PrimitiveChessboard;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 
 import java.io.*;
 import java.net.*;
@@ -24,16 +25,13 @@ public class Server implements Runnable {
     public Server(int port) throws Exception {
 
         serverSocket = new ServerSocket(port);
-        serverSocket.setSoTimeout(20000);
+        serverSocket.setSoTimeout(5100);
 
         players = new Socket[2];
 
         System.out.println("Server started");
 
         isGameEnded = true;
-        /*
-        *   TODO musi byc false, ale najpeirw klient musi moc obslozyc koniec gry normalnie
-         */
     }
 
     @Override
@@ -46,6 +44,11 @@ public class Server implements Runnable {
             System.out.println("player2 connected, address: " + players[1].getRemoteSocketAddress());
         }catch(SocketTimeoutException e){
             System.out.println("Waiting time reached!");
+            try {
+                serverSocket.close();
+            }catch (IOException ex){
+                ex.printStackTrace();
+            }
             return;
         }
         catch(Exception e){
@@ -95,7 +98,6 @@ public class Server implements Runnable {
 
                     System.out.println("decoded: " + moveParameters);
                     board.movePawnTo(moveParameters.getMovedPawnNumber(), new Coordinates(moveParameters.getMoveDestination()));
-//                System.out.println(board);
                     if (activePlayer == 1)
                         moveParameters.playerChange();
 
@@ -120,10 +122,12 @@ public class Server implements Runnable {
                     }
 
 
-                } catch (IOException e) {
+                } catch (SocketException e) {
+                    return;
+                }catch (IOException e) {
                     e.printStackTrace();
                     break;
-                } catch (Exception e) {
+                }catch (Exception e) {
                     e.printStackTrace();
                     break;
                 }
@@ -146,10 +150,6 @@ public class Server implements Runnable {
                 isGameEnded = true;
                 e.printStackTrace();
             }
-            /*
-            *   TODO zebranie informacji czy klienci chca dalej grac
-             */
-
 
             firstPlayerNumber=(firstPlayerNumber % 2) + 1;
         }while (!isGameEnded);

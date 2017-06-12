@@ -10,22 +10,24 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 
 /**
  * Created by Stefan on 2017-05-22.
  */
+
 public class ConnectionController implements Runnable{
 
     Socket server;
     BoardController board;
 
-    ConnectionController(String ipAddress, String portNumber, BoardController board) throws Exception{
+    ConnectionController(String ipAddress, String portNumber, BoardController board) throws IOException{
         InetAddress address = InetAddress.getByName(ipAddress);
         int port = Integer.parseInt(portNumber);
-//        System.out.println(1 + ": " + address.toString() + " " + port);
         server = new Socket(address,port);
-//        System.out.println(2);
         this.board = board;
+        server.setSoTimeout(5000);
 
     }
 
@@ -38,18 +40,18 @@ public class ConnectionController implements Runnable{
     }
 
     String readMessage() throws IOException{
-//        try {
             DataInputStream in = new DataInputStream(server.getInputStream());
 
             return in.readUTF();
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-       // return null;
     }
 
     @Override
     public void run() {
+        try {
+            server.setSoTimeout(0);
+        }catch (SocketException e){
+            e.printStackTrace();
+        }
         Boolean isDisconnected = false;
         board.setWantToPlayAgain(null);
 
@@ -104,11 +106,8 @@ public class ConnectionController implements Runnable{
 
 
                 while (!board.isNowMyTurn())
-                    board.incomingMessagesReader.sleep(100);            // beacause of platform runLater -> releaseLastMove
+                    board.incomingMessagesReader.sleep(100);
 
-
-
-//                System.out.println("end of while(true)");
 
             }catch (InterruptedException e){
                 System.out.println("interrupted exception");

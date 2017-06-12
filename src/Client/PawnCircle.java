@@ -14,7 +14,7 @@ public class PawnCircle extends Circle {
         super(27, 27,22, pawnColor);
 //        Image image = new Image("Client/queen.png",)
         if(isQueen) {
-            String imageURL = pawnColor == Color.WHITE ? "Client/whiteQueen.png" : "Client/blackQueen.png";
+            String imageURL = pawnColor == Color.WHITE ? "Client/View/whiteQueen.png" : "Client/View/blackQueen.png";
             setFill(new ImagePattern(new Image(imageURL)));
         }
     }

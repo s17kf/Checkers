@@ -20,8 +20,6 @@ public class NewGameQuestionController {
 
     @FXML
     void yesClicked() throws Exception{
-     //   boardController.changeActivePlayer();
-       // boardController.createChessboard(boardController.getActivePlayer());
 
         boardController.setPlayer1White(!boardController.getPlayer1White());
 

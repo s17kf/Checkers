@@ -34,12 +34,6 @@ public class MoveParameters {
         this.isHitContinuation = isHitContinuation;
     }
 
-    public void setParameters(int movedPawnNumber, int moveDestination, Boolean isHitContinuation){
-        this.movedPawnNumber = movedPawnNumber;
-        this.moveDestination = moveDestination;
-        this.isHitContinuation = isHitContinuation;
-    }
-
     public void playerChange(){
         movedPawnNumber = movedPawnNumber < 12 ? movedPawnNumber + 12 : movedPawnNumber -12;
         moveDestination = 63 - moveDestination;

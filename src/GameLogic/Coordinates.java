@@ -12,8 +12,6 @@ public class Coordinates{
     int y;
 
     public Coordinates(Coordinates other){
-//        x = other.x;
-//        y = other.y;
         x = new Integer(other.x);
         y = new Integer(other.y);
     }
@@ -34,10 +32,6 @@ public class Coordinates{
 
     public Integer toInt(){
         return y*8+x;
-    }
-
-    static Coordinates toCoordinates(int value) throws Exception{
-        return new Coordinates(value);
     }
 
     public int getX() {

@@ -4,8 +4,6 @@ import GameLogic.Chessboard;
 import GameLogic.Coordinates;
 import GameLogic.MoveParameters;
 import GameLogic.Pawn;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -29,7 +27,7 @@ import java.util.Vector;
 /**
  * Created by Stefan on 2017-05-19.
  */
-public class BoardController /*implements Runnable*/{
+public class BoardController{
 
     @FXML
     private GridPane boardVisual;
@@ -56,19 +54,13 @@ public class BoardController /*implements Runnable*/{
     HBox player1HitPawns, player2HitPawns;
 
     @FXML
-    Label nameLabel1, nameLabel2, pointsLabel1, pointsLabel2;
-
-    @FXML
     TextArea logTextArea;
 
     private Map<Integer, Pane> squaresMap;
     private Vector<Integer> possibleMoves;
     private Integer lastClicked;
 
-//    private Circle pawnsVisual[];
-
     private Boolean isPlayer1White;
-    private String player1Name, player2Name;
     private Chessboard board;
     private ConnectionController connectionController;
     private int activePlayer;
@@ -84,18 +76,19 @@ public class BoardController /*implements Runnable*/{
 
     }
 
-    public void initBoard(String ipAddress, String portNumber, String player1Name) throws Exception{
+    public void initBoard(String ipAddress, String portNumber) throws Exception{
 
         rootPane.setStyle("-fx-background-color: lightslategrey");
-
-        this.player1Name = player1Name;
-
+        System.out.println("Init Board");
         connectionController = new ConnectionController(ipAddress, portNumber, this);
-        String color = connectionController.readMessage();
+        System.out.println("color received");
+        String color = new String();
+
+        color = connectionController.readMessage();
+
+
 
         initSquaresMap();
-
-        //createChessboard(Integer.parseInt(color));
 
         isPlayer1White = color.equals("1");
 
@@ -103,12 +96,14 @@ public class BoardController /*implements Runnable*/{
 
     }
 
+
+
     void createChessboard(int activePlayer) throws Exception{
-//        isPlayer1White = activePlayer==1;
         createChessboard(activePlayer == 1);
     }
 
     void createChessboard(Boolean isPlayer1White) throws Exception{
+        System.out.println("creating board");
         this.isPlayer1White = isPlayer1White;
         activePlayer = 1;
         board=new Chessboard(isPlayer1White);
@@ -146,14 +141,6 @@ public class BoardController /*implements Runnable*/{
             player1HitPawns.getChildren().remove(0,player1HitPawns.getChildren().size());
         if(player2HitPawns.getChildren().size() > 0)
             player2HitPawns.getChildren().remove(0,player2HitPawns.getChildren().size());
-    }
-
-    public void setPlayer1Name(String player1Name) {
-        this.player1Name = player1Name;
-    }
-
-    public void setPlayer2Name(String player2Name) {
-        this.player2Name = player2Name;
     }
 
     public Chessboard getBoard() {
@@ -202,7 +189,6 @@ public class BoardController /*implements Runnable*/{
                 board.moveFromSquareToSquare(lastClicked, squareNumber);
 
                 squaresMap.get(lastClicked).getChildren().remove(1);
-//                System.out.println(new SquareIndex(lastClicked,isPlayer1White) + "->" + new SquareIndex(squareNumber,isPlayer1White));
 
                 logTextArea.insertText(logTextArea.getLength(), createMoveLog(lastClicked, squareNumber, true));
                 resetClicks();
@@ -215,12 +201,7 @@ public class BoardController /*implements Runnable*/{
                 if(!isHitContinuation) {
                     if(!board.changePlayer()){
                         incomingMessagesReader = null;
-//                        incomingMessagesReader.interrupt();
                         System.out.println("Game over");
-//                        incomingMessagesReader = null;
-                        /*
-                        * TODO trzeba opracowac zakonczenie gry do jednego z graczy wyslac pakiet o ruchu przeciwnika
-                         */
                         showNewGameQuestionWindow();
                     }
                     updateWhoMoveLabel();
@@ -233,10 +214,7 @@ public class BoardController /*implements Runnable*/{
                     addHitPawn(1);
                 }
 
-
-
                 putPawnOnSquare(movedPawnNumber, squareNumber, movedPawnColor);
-//                addHighlightToSquare(squareNumber);
 
             }
             else{
@@ -247,12 +225,7 @@ public class BoardController /*implements Runnable*/{
             e.printStackTrace();
         }
 
-
-
-//        System.out.println(((Shape)event.getSource()).getParent());
-//        ((Pane)((Shape) event.getSource()).getParent()).getChildren());
-
-    };
+    }
 
     @FXML
     public void onSquareEntered(MouseEvent event ){
@@ -279,17 +252,6 @@ public class BoardController /*implements Runnable*/{
         }
     }
 
-
-    public void onEndButtonAction(ActionEvent event){
-        isGameEnded = true;
-        try {
-//            incomingMessagesReader = null;
-            incomingMessagesReader.interrupt();
-            connectionController.sendMessage("disconnecting");
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
 
     private void resetClicks(){
         for (Integer number : possibleMoves) {
@@ -405,15 +367,12 @@ public class BoardController /*implements Runnable*/{
             Vector<Integer> squaresToClean = board.getHitsInLastMove();
             for (Integer squareToClean : squaresToClean) {
                 System.out.println("Deleting pawn on " + squareToClean);
-//                squaresMap.get(squareToClean).getChildren().remove(1);
                 removePawnFromSquare(squareToClean);
                 addHitPawn(2);
             }
 
-//            squaresMap.get(sourceSquare).getChildren().remove(1);
             removePawnFromSquare(sourceSquare);
             putPawnOnSquare(movedPawnNumber, destination, movedPawnColor);
-//            putQueenOnSquare(destination, movedPawnColor);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -421,11 +380,6 @@ public class BoardController /*implements Runnable*/{
 
     Boolean isNowMyTurn(){
         return activePlayer == board.getActivePlayer();
-    }
-
-
-    public void changeActivePlayer(){
-        activePlayer = activePlayer % 2 + 1;
     }
 
     void updateWhoMoveLabel(){
@@ -528,24 +482,20 @@ public class BoardController /*implements Runnable*/{
         Stage stage = new Stage(StageStyle.UTILITY);
         stage.initOwner(boardVisual.getScene().getWindow());
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("NewGameQuestion.fxml"));
-            Parent root = loader.load(); // FXMLLoader.load(getClass().getResource("NewGameQuestion.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("View/NewGameQuestion.fxml"));
+            Parent root = loader.load();
 
-        NewGameQuestionController newGameQuestionController = loader.getController();
+            NewGameQuestionController newGameQuestionController = loader.getController();
 
-        newGameQuestionController.setBoardController(this);
+            newGameQuestionController.setBoardController(this);
 
-        stage.setScene(new Scene(root));
+            stage.setScene(new Scene(root));
 
-        stage.show();
+            stage.show();
 
         }catch (IOException e){
             e.printStackTrace();
         }
-    }
-
-    public int getActivePlayer() {
-        return activePlayer;
     }
 
     public Boolean getGameEnded() {
@@ -562,7 +512,14 @@ public class BoardController /*implements Runnable*/{
 
     void setOnExit(){
         boardVisual.getScene().getWindow().setOnCloseRequest( e -> {
-            onEndButtonAction(new ActionEvent());
+            try {
+                if(incomingMessagesReader != null) {
+                    incomingMessagesReader.interrupt();
+                    connectionController.sendMessage("disconnecting");
+                }
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
         });
     }
 
