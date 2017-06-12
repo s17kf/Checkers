@@ -1,11 +1,13 @@
 package Client;
 
 import GameLogic.MoveParameters;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.application.Platform;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -20,9 +22,9 @@ public class ConnectionController implements Runnable{
     ConnectionController(String ipAddress, String portNumber, BoardController board) throws Exception{
         InetAddress address = InetAddress.getByName(ipAddress);
         int port = Integer.parseInt(portNumber);
-        System.out.println(1 + ": " + address.toString() + " " + port);
+//        System.out.println(1 + ": " + address.toString() + " " + port);
         server = new Socket(address,port);
-        System.out.println(2);
+//        System.out.println(2);
         this.board = board;
 
     }
@@ -35,7 +37,7 @@ public class ConnectionController implements Runnable{
 
     }
 
-    String readMessage() throws Exception{
+    String readMessage() throws IOException{
 //        try {
             DataInputStream in = new DataInputStream(server.getInputStream());
 
@@ -48,53 +50,117 @@ public class ConnectionController implements Runnable{
 
     @Override
     public void run() {
+        Boolean isDisconnected = false;
+        board.setWantToPlayAgain(null);
+
         while(board.incomingMessagesReader != null){
             try{
-                if(!board.isNowMyTurn()) {
-                /*
-                * TODO jakiegos ifa bo wywala wyjatek jak ja klikne end connection
-                * ??? Moze ten co na gorze wystarczy??
-                * */
-                    String receivedMessage = readMessage();
+                while (board.isNowMyTurn() && !board.getGameEnded()){
+                    board.incomingMessagesReader.sleep(100);
+                }
+                board.incomingMessagesReader.sleep(100);
 
-                    System.out.println("Client received: " + receivedMessage);
+                if(board.getBoard().getGameEnded()){
+                    System.out.println("Connection reader: Game ended, line 84");
+                    break;
+                }
 
-                    if (receivedMessage.equals("disconnected")) {
-                        System.out.println("Other player has disconnected");
-                        board.whoMoveLabelSetDisconnected();
-                        board.addLineToMoveLog("Other player has disconnected!");
-                        break;
-                    }
-                    if (receivedMessage.equals("endOfGame")) {
-                        String lastMoveParameters = readMessage();
-                        Platform.runLater(() -> {
-                            realizeLastMove(lastMoveParameters);
-                            board.updateWhoMoveLabel();
-                        });
+                System.out.println("Incoming reader: wait for message line 68");
+                String receivedMessage = readMessage();
 
-    /*
-    * TODO trzeba opracowac zakonczenie gry do jednego z graczy wyslac pakiet o ruchu przeciwnika
-     */
+                System.out.println("Client received: " + receivedMessage);
 
-                        System.out.println("Game over");
-                        break;
-                    }
-//                    Platform.runLater(() -> realizeLastMove(receivedMessage));
+                if (receivedMessage.equals("disconnected")) {
+                    isDisconnected = true;
+                    System.out.println("Other player has disconnected");
                     Platform.runLater(() -> {
-                        realizeLastMove(receivedMessage);
-                        board.updateWhoMoveLabel();
+                        board.whoMoveLabelSetDisconnected();
+
+                        board.addLineToMoveLog("Other player has disconnected!");
                     });
-                }
-                else {
-                    board.incomingMessagesReader.sleep(250);
-                }
-            }catch (EOFException e) {
-                if(board.getBoard().getGameEnded())
+                    board.setWantToPlayAgain(false);
                     return;
-                e.printStackTrace();
-            }catch (Exception e){
-                e.printStackTrace();
+                }
+                if (receivedMessage.equals("endOfGame")) {
+                    String lastMoveParameters = readMessage();
+                    Platform.runLater(() -> {
+                        realizeLastMove(lastMoveParameters);
+                        board.updateWhoMoveLabel();
+                        board.showNewGameQuestionWindow();
+                    });
+
+
+                    System.out.println("Game over");
+                    break;
+                }
+
+                Platform.runLater(() -> {
+                    realizeLastMove(receivedMessage);
+                    board.updateWhoMoveLabel();
+                });
+
+                if (new MoveParameters(2, receivedMessage).getHitContinuation())
+                    continue;
+
+
+                while (!board.isNowMyTurn())
+                    board.incomingMessagesReader.sleep(100);            // beacause of platform runLater -> releaseLastMove
+
+
+
+//                System.out.println("end of while(true)");
+
+            }catch (InterruptedException e){
+                System.out.println("interrupted exception");
+                return;
+            }catch (IOException e){
+                if(board.getBoard().getGameEnded() || isDisconnected || board.getGameEnded()){
+                    System.out.println("IOException catch");
+                    return;
+                }
+                Platform.runLater(() -> {
+                    board.whoMoveLabelSetDisconnected();
+
+                    board.addLineToMoveLog("Other player has disconnected!");
+                });
+                return;
             }
+        }
+
+        try{
+            while (board.getWantToPlayAgain() == null){
+                board.incomingMessagesReader.sleep(100);
+            }
+
+            System.out.println("Connection controller: my want to play value: " + board.getWantToPlayAgain());
+
+            sendMessage(board.getWantToPlayAgain().toString());
+
+            System.out.println("Incoming reader: wait for message line 135");
+            String receivedMessage = new String(readMessage());
+            System.out.println("Received value: " + receivedMessage);
+            if (!receivedMessage.equals("true")){
+                board.setWantToPlayAgain(false);
+            }
+        }catch (InterruptedException e){
+            System.out.println("interrupted exception");
+            return;
+        }catch (IOException e){
+            System.out.println("Why IOException");
+            e.printStackTrace();
+        }catch (Exception e){
+            System.out.println("other exception");
+            e.printStackTrace();
+        }
+
+        if(board.getWantToPlayAgain()){
+            Platform.runLater( () -> {
+                try {
+                    board.createChessboard(board.getPlayer1White());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            });
         }
     }
 

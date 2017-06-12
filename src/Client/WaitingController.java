@@ -46,10 +46,9 @@ public class WaitingController {
         Stage boardStage = (Stage)( waitingLabel1.getScene().getWindow());
         boardStage.setScene(boardScene);
 
-
-
         boardStage.show();
 
+        controller.setOnExit();
     }
 
 

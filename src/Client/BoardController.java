@@ -6,18 +6,21 @@ import GameLogic.MoveParameters;
 import GameLogic.Pawn;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.input.MouseEvent;
 import javafx.fxml.FXML;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -30,6 +33,9 @@ public class BoardController /*implements Runnable*/{
 
     @FXML
     private GridPane boardVisual;
+
+    @FXML
+    private BorderPane rootPane;
 
     @FXML
     Pane square0, square1, square2, square3, square4, square5, square6, square7, square8, square9, square10, square11, square12, square13, square14, square15, square16, square17, square18, square19, square20;
@@ -50,6 +56,9 @@ public class BoardController /*implements Runnable*/{
     HBox player1HitPawns, player2HitPawns;
 
     @FXML
+    Label nameLabel1, nameLabel2, pointsLabel1, pointsLabel2;
+
+    @FXML
     TextArea logTextArea;
 
     private Map<Integer, Pane> squaresMap;
@@ -64,14 +73,20 @@ public class BoardController /*implements Runnable*/{
     private ConnectionController connectionController;
     private int activePlayer;
     Thread incomingMessagesReader;
+    Boolean wantToPlayAgain;
+    private Boolean isGameEnded;
 
     public BoardController(){
 
         squaresMap = new HashMap<>();
         possibleMoves = new Vector<>();
+        isGameEnded = false;
+
     }
 
     public void initBoard(String ipAddress, String portNumber, String player1Name) throws Exception{
+
+        rootPane.setStyle("-fx-background-color: lightslategrey");
 
         this.player1Name = player1Name;
 
@@ -80,13 +95,29 @@ public class BoardController /*implements Runnable*/{
 
         initSquaresMap();
 
+        //createChessboard(Integer.parseInt(color));
+
         isPlayer1White = color.equals("1");
+
+        createChessboard(Integer.parseInt(color));
+
+    }
+
+    void createChessboard(int activePlayer) throws Exception{
+//        isPlayer1White = activePlayer==1;
+        createChessboard(activePlayer == 1);
+    }
+
+    void createChessboard(Boolean isPlayer1White) throws Exception{
+        this.isPlayer1White = isPlayer1White;
         activePlayer = 1;
         board=new Chessboard(isPlayer1White);
-        board.setActivePlayer(Integer.parseInt(color));
+        board.setActivePlayer(isPlayer1White ? 1 : 2);
         initIndexLabels(isPlayer1White);
 
         int colorInfluence = isPlayer1White ? 0 : 12;
+
+        resetChessboard();
 
         for(int i=0 + colorInfluence;i<12 + colorInfluence;i++){
             putPawnOnSquare(i, board.getPawn(i).getPosition().toInt(),Color.WHITE);
@@ -96,9 +127,25 @@ public class BoardController /*implements Runnable*/{
         }
         updateWhoMoveLabel();
 
+        resetHitPawns();
+
         incomingMessagesReader = new Thread(connectionController);
         incomingMessagesReader.start();
 
+    }
+
+    void resetChessboard(){
+        for( int i = 0; i < 63; i++){
+            if(squaresMap.get(i).getChildren().size() > 1)
+                squaresMap.get(i).getChildren().remove(1,squaresMap.get(i).getChildren().size());
+        }
+    }
+
+    void resetHitPawns(){
+        if(player1HitPawns.getChildren().size() > 0)
+            player1HitPawns.getChildren().remove(0,player1HitPawns.getChildren().size());
+        if(player2HitPawns.getChildren().size() > 0)
+            player2HitPawns.getChildren().remove(0,player2HitPawns.getChildren().size());
     }
 
     public void setPlayer1Name(String player1Name) {
@@ -113,11 +160,18 @@ public class BoardController /*implements Runnable*/{
         return board;
     }
 
+    public Boolean getWantToPlayAgain() {
+        return wantToPlayAgain;
+    }
+
+    public void setWantToPlayAgain(Boolean wantToPlayAgain) {
+        this.wantToPlayAgain = wantToPlayAgain;
+    }
 
     @FXML
     public void onSquareClicked(MouseEvent event ) {
 
-        if (activePlayer != board.getActivePlayer()) {
+        if (!isNowMyTurn() || isGameEnded) {
             return;
         }
 
@@ -160,12 +214,14 @@ public class BoardController /*implements Runnable*/{
 
                 if(!isHitContinuation) {
                     if(!board.changePlayer()){
-                        incomingMessagesReader.interrupt();
-                        System.out.println("Game over");
                         incomingMessagesReader = null;
+//                        incomingMessagesReader.interrupt();
+                        System.out.println("Game over");
+//                        incomingMessagesReader = null;
                         /*
                         * TODO trzeba opracowac zakonczenie gry do jednego z graczy wyslac pakiet o ruchu przeciwnika
                          */
+                        showNewGameQuestionWindow();
                     }
                     updateWhoMoveLabel();
                 }
@@ -223,11 +279,13 @@ public class BoardController /*implements Runnable*/{
         }
     }
 
-    @FXML
+
     public void onEndButtonAction(ActionEvent event){
+        isGameEnded = true;
         try {
+//            incomingMessagesReader = null;
+            incomingMessagesReader.interrupt();
             connectionController.sendMessage("disconnecting");
-            incomingMessagesReader = null;
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -371,7 +429,7 @@ public class BoardController /*implements Runnable*/{
     }
 
     void updateWhoMoveLabel(){
-        if(board.getGameEnded()){
+        if(board.getGameEnded() || isGameEnded){
             whoMoveLabel.setText("Game Over");
             whoMoveLabel.setTextFill(Color.RED);
             return;
@@ -452,7 +510,7 @@ public class BoardController /*implements Runnable*/{
 
     void addHitPawn(int playerNumber){
         Color pawnColor;
-        if(isPlayer1White)
+        if(!isPlayer1White)
             pawnColor = playerNumber == 1 ? Color.WHITE : Color.BLACK;
         else
             pawnColor = playerNumber == 1 ? Color.BLACK : Color.WHITE;
@@ -463,6 +521,49 @@ public class BoardController /*implements Runnable*/{
         else{
             player2HitPawns.getChildren().add(new Circle(18,pawnColor));
         }
+    }
+
+
+    public void showNewGameQuestionWindow(){
+        Stage stage = new Stage(StageStyle.UTILITY);
+        stage.initOwner(boardVisual.getScene().getWindow());
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("NewGameQuestion.fxml"));
+            Parent root = loader.load(); // FXMLLoader.load(getClass().getResource("NewGameQuestion.fxml"));
+
+        NewGameQuestionController newGameQuestionController = loader.getController();
+
+        newGameQuestionController.setBoardController(this);
+
+        stage.setScene(new Scene(root));
+
+        stage.show();
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public int getActivePlayer() {
+        return activePlayer;
+    }
+
+    public Boolean getGameEnded() {
+        return isGameEnded;
+    }
+
+    public Boolean getPlayer1White() {
+        return isPlayer1White;
+    }
+
+    public void setPlayer1White(Boolean player1White) {
+        isPlayer1White = player1White;
+    }
+
+    void setOnExit(){
+        boardVisual.getScene().getWindow().setOnCloseRequest( e -> {
+            onEndButtonAction(new ActionEvent());
+        });
     }
 
 }

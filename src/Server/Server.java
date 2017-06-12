@@ -6,6 +6,7 @@ import GameLogic.PrimitiveChessboard;
 
 import java.io.*;
 import java.net.*;
+import java.util.Random;
 
 
 /**
@@ -52,22 +53,28 @@ public class Server implements Runnable {
             return;
         }
 
+        Integer firstPlayerNumber = new Integer(1);
 
         try {
-            board = new PrimitiveChessboard(false);
-
+            Random rand = new Random();
+            firstPlayerNumber = (rand.nextInt(50) % 2) +1;
             DataOutputStream out[] = new DataOutputStream[2];
             for(int i = 0;i < 2 ; i++)
                 out[i]= new DataOutputStream(players[i].getOutputStream());
-            out[0].writeUTF("2");
-            out[1].writeUTF("1");
-            activePlayer = 2;
+            out[0].writeUTF(firstPlayerNumber.toString());
+            out[1].writeUTF(new Integer((firstPlayerNumber % 2) + 1).toString());
         }catch (IOException e){
             e.printStackTrace();
         }catch (Exception e){
             e.printStackTrace();
         }
-        do {
+        outside:do {
+            try {
+                board = new PrimitiveChessboard(firstPlayerNumber.equals(1));
+                activePlayer = new Integer(firstPlayerNumber);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             while (true) {
                 try {
                     activePlayer = board.getActivePlayer();
@@ -81,7 +88,7 @@ public class Server implements Runnable {
                         changeActivePlayer();
                         DataOutputStream out = new DataOutputStream(players[activePlayer - 1].getOutputStream());
                         out.writeUTF("disconnected");
-                        break;
+                        break outside;
                     }
                     MoveParameters moveParameters = new MoveParameters(activePlayer, receivedMessage);
 
@@ -122,11 +129,29 @@ public class Server implements Runnable {
                 }
             }
 
+            String message1, message2;
+
+            try {
+                message1 = new String(new DataInputStream(players[0].getInputStream()).readUTF());
+                System.out.println("Server received1: " + message1);
+                message2 = new String(new DataInputStream(players[1].getInputStream()).readUTF());
+                System.out.println("Server received2: " + message2);
+                new DataOutputStream(players[1].getOutputStream()).writeUTF(message1);
+                new DataOutputStream(players[0].getOutputStream()).writeUTF(message2);
+                isGameEnded = true;
+                if(message1.equals("true") && message2.equals("true")){
+                    isGameEnded=false;
+                }
+            }catch (IOException e){
+                isGameEnded = true;
+                e.printStackTrace();
+            }
             /*
             *   TODO zebranie informacji czy klienci chca dalej grac
              */
 
 
+            firstPlayerNumber=(firstPlayerNumber % 2) + 1;
         }while (!isGameEnded);
 
         try {
@@ -142,33 +167,6 @@ public class Server implements Runnable {
         activePlayer = activePlayer % 2 + 1;
     }
 
-//    private Object[] getMoveParameters(int playerNumber, String message) {
-//        Integer movedPawnNumber, moveDestination;
-//        Boolean isHitContinuation;
-//        Object[] result = new Object[3];
-//        int i = 0;
-//        String part1 = new String(), part2 = new String(), part3 = new String();
-//        for (; message.charAt(i) != ';'; i++){
-//            part1 += message.charAt(i);
-//        }
-//        for(i++; message.charAt(i) != ';'; i++){
-//            part2 += message.charAt(i);
-//        }
-//        for(i++; i < message.length(); i++){
-//            part3 += message.charAt(i);
-//        }
-//        movedPawnNumber = Integer.parseInt(part1);
-//        moveDestination = Integer.parseInt(part2);
-//        isHitContinuation = Boolean.parseBoolean(part3);
-//        if(playerNumber == 2){
-//            movedPawnNumber = movedPawnNumber < 12 ? movedPawnNumber + 12 : movedPawnNumber - 12;
-//            moveDestination = 63 - moveDestination;
-//        }
-//        result[0] = movedPawnNumber;
-//        result[1] = moveDestination;
-//        result[2] = isHitContinuation;
-//        return result;
-//    }
 
 }
 
