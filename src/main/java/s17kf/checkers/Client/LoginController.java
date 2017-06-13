@@ -1,6 +1,6 @@
-package Client;
+package s17kf.checkers.Client;
 
-import Server.Server;
+import s17kf.checkers.Server.Server;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -37,7 +37,7 @@ public class LoginController {
             server.start();
 
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("View/Chessboard.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("Chessboard.fxml"));
             Parent root = loader.load();
             BoardController controller = loader.getController();
             controller.initBoard("localhost", port1.getText());
@@ -82,7 +82,7 @@ public class LoginController {
     public void onJoinClick(ActionEvent event ){
         System.out.println("Button2 clicked ");
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("View/Chessboard.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("Chessboard.fxml"));
             Parent root = loader.load();
             BoardController controller = loader.getController();
             controller.initBoard(addressIP.getText(), port2.getText());

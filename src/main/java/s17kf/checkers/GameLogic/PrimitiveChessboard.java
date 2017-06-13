@@ -1,7 +1,6 @@
-package GameLogic;
+package s17kf.checkers.GameLogic;
 
 import java.util.Arrays;
-import java.util.Vector;
 
 /**
  * Created by Stefan on 2017-05-25.

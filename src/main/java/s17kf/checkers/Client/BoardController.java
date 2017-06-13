@@ -1,9 +1,9 @@
-package Client;
+package s17kf.checkers.Client;
 
-import GameLogic.Chessboard;
-import GameLogic.Coordinates;
-import GameLogic.MoveParameters;
-import GameLogic.Pawn;
+import s17kf.checkers.GameLogic.Chessboard;
+import s17kf.checkers.GameLogic.Coordinates;
+import s17kf.checkers.GameLogic.MoveParameters;
+import s17kf.checkers.GameLogic.Pawn;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -482,7 +482,7 @@ public class BoardController{
         Stage stage = new Stage(StageStyle.UTILITY);
         stage.initOwner(boardVisual.getScene().getWindow());
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("View/NewGameQuestion.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("NewGameQuestion.fxml"));
             Parent root = loader.load();
 
             NewGameQuestionController newGameQuestionController = loader.getController();

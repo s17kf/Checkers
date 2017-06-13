@@ -1,4 +1,4 @@
-package GameLogic;
+package s17kf.checkers.GameLogic;
 
 /**
  * Created by Stefan on 2017-05-19.

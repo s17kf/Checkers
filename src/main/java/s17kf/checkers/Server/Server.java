@@ -1,9 +1,8 @@
-package Server;
+package s17kf.checkers.Server;
 
-import GameLogic.Coordinates;
-import GameLogic.MoveParameters;
-import GameLogic.PrimitiveChessboard;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+import s17kf.checkers.GameLogic.Coordinates;
+import s17kf.checkers.GameLogic.MoveParameters;
+import s17kf.checkers.GameLogic.PrimitiveChessboard;
 
 import java.io.*;
 import java.net.*;

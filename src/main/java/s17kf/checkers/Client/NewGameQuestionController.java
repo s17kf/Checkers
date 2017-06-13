@@ -1,4 +1,4 @@
-package Client;
+package s17kf.checkers.Client;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

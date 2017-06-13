@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="98.0" prefWidth="164.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.NewGameQuestionController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="98.0" prefWidth="164.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="s17kf.checkers.Client.NewGameQuestionController">
 <children>
     <Button fx:id="yesButton" layoutX="14.0" layoutY="58.0" mnemonicParsing="false" onAction="#yesClicked" text="yes" />
     <Button fx:id="noButton" layoutX="115.0" layoutY="58.0" mnemonicParsing="false" onAction="#noClicked" text="no" />

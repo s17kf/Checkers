@@ -1,4 +1,4 @@
-package Client;
+package s17kf.checkers.Client;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -14,7 +14,7 @@ public class PawnCircle extends Circle {
         super(27, 27,22, pawnColor);
 //        Image image = new Image("Client/queen.png",)
         if(isQueen) {
-            String imageURL = pawnColor == Color.WHITE ? "Client/View/whiteQueen.png" : "Client/View/blackQueen.png";
+            String imageURL = pawnColor == Color.WHITE ? "whiteQueen.png" : "blackQueen.png";
             setFill(new ImagePattern(new Image(imageURL)));
         }
     }

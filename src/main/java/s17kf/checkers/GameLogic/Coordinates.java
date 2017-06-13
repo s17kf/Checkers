@@ -1,6 +1,4 @@
-package GameLogic;
-
-import com.sun.org.apache.xpath.internal.operations.Bool;
+package s17kf.checkers.GameLogic;
 
 /**
  * Created by Stefan on 2017-05-19.

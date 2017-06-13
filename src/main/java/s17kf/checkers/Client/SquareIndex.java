@@ -1,4 +1,4 @@
-package Client;
+package s17kf.checkers.Client;
 
 /**
  * Created by stefan on 04.06.17.

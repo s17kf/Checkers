@@ -1,17 +1,14 @@
-package Client;
+package s17kf.checkers.Client;
 
-import GameLogic.MoveParameters;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import s17kf.checkers.GameLogic.MoveParameters;
 import javafx.application.Platform;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.EOFException;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 
 /**
  * Created by Stefan on 2017-05-22.
